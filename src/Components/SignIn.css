@@ -1,0 +1,128 @@
+  /* Font Import */
+  @font-face {
+    font-family: 'Michroma';
+    src: url('./Fonts/Michroma/Michroma-Regular.ttf') format('truetype'); /* Specify the correct format */
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Inter';
+    src: url('../Fonts/Inter/Inter-VariableFont_slnt\,wght.ttf') format('truetype'); /* Specify the correct format */
+    font-weight: normal;
+    font-style: normal;
+  }
+
+/* Image */
+.image-centered {
+    margin-top: 10%;
+    width: 100%;
+    height: auto;
+    margin-bottom: 2%;
+  }
+/* Containers */  
+  .stack {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .container {
+    display: flex;
+    width: 20%;
+    min-width: 100px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+  }
+  
+  .input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 10%;
+  }
+
+  .input-container p {
+    margin: 0;
+    font-family: 'Inter', 'Sans-serif', sans-serif;
+    font-size: 1.3vw;
+    margin-bottom: 3%;
+  }
+/* Inputs */
+  .custom-input {
+    height: 2.5vw;
+    width: 100%;
+    border-radius: 30px;
+    border-style: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    box-sizing: border-box;   
+  }
+
+  .custom-input:focus {
+    outline-style: none;
+  }
+/* Buttons */
+  .button-container {
+    display: flex;
+    width: 90%;
+    margin-bottom: 1.5%;
+    justify-content: space-between;
+  }
+
+  .button-left{
+    cursor: pointer;
+    background-color: #5E5959A1;
+    color: white;
+    border-radius: 30px;
+    border-style: none;
+    width: 6vw;
+    font-size: 0.9vw;
+    height: 2vw;
+    min-width: 40px;
+
+    transition: all 0.1s ease;
+  }
+
+  .button-left:hover{
+    background-color: #3a3535a1;
+  }
+
+  .button-left:active{
+    transform: scale(0.8);
+  }
+
+  .button-right{
+    cursor: pointer;
+    background-color: #5E5959A1;
+    color: white;
+    border-radius: 30px;
+    border-style: none;
+    width: 6vw;
+    font-size: 0.9vw;
+    height: 2vw;
+    padding-right: 15px;
+    background-image: url('../assets/SignIn/signin.svg');
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: 20%;
+    background-position-x: 87%;
+    min-width: 40px;
+
+    transition: all 0.1s ease;
+  }
+
+  .button-right:hover{
+    background-color: #3a3535a1;
+  }
+  
+  .button-right:active{
+    transform: scale(0.8);
+  }
+
