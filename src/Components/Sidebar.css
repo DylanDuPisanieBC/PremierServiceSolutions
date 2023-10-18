@@ -1,0 +1,66 @@
+/* Sidebar.css */
+#sidebar {
+    background-color: #333;
+    color: #fff;
+    height: 100vh;
+    width: 200px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    overflow-y: auto;
+    
+  }
+  
+  .panel {
+    padding: 15px;
+    border-bottom: 1px solid #444; /* Add a border between links */
+    transition: background-color 0.3s;
+  }
+  
+  #sidebarBtn {
+    display: block;
+    padding: 15px;
+    font-size: 16px;
+    background-color: #555;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+  }
+  
+  #sidebar a {
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    border-radius: 0 10px 10px 0; /* Rounded left corners */
+  }
+  
+  #sidebar a:hover {
+    background-color: #555;
+  }
+  
+  /* Rounded corners for the last link in the sidebar */
+  #sidebar a:last-child {
+    border-bottom: none;
+    border-radius: 0 0 10px 0;
+  }
+  #openBtn {
+    font-size: 20px;
+    cursor: pointer;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    align-items: center;
+  }
+  
+  /* Closed state styles */
+  #content.content-closed {
+    margin-left: 0;
+  }
+  
+  /* Open state styles */
+  #content.content-open {
+    margin-left: 200px;
+  }  
