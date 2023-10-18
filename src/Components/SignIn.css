@@ -1,14 +1,14 @@
   /* Font Import */
   @font-face {
     font-family: 'Michroma';
-    src: url('./Fonts/Michroma/Michroma-Regular.ttf') format('truetype'); /* Specify the correct format */
+    src: url('../Fonts/Michroma/Michroma-Regular.ttf') format('truetype'); /* Specify the correct format */
     font-weight: normal;
     font-style: normal;
   }
 
   @font-face {
     font-family: 'Inter';
-    src: url('../Fonts/Inter/Inter-VariableFont_slnt\,wght.ttf') format('truetype'); /* Specify the correct format */
+    src: url('../Fonts/Inter/static/Inter-Regular.ttf') format('truetype'); /* Specify the correct format */
     font-weight: normal;
     font-style: normal;
   }
@@ -58,10 +58,11 @@
   .custom-input {
     height: 2.5vw;
     width: 100%;
+    font-size: 1.2vw;
     border-radius: 30px;
     border-style: none;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
     box-sizing: border-box;   
   }
 
@@ -73,10 +74,10 @@
     display: flex;
     width: 90%;
     margin-bottom: 1.5%;
-    justify-content: space-between;
+    justify-content: center;
   }
 
-  .button-left{
+  .button-left {
     cursor: pointer;
     background-color: #5E5959A1;
     color: white;
@@ -86,9 +87,16 @@
     font-size: 0.9vw;
     height: 2vw;
     min-width: 40px;
-
+    text-align: center;
+    font-family: 'Inter', 'sans-serif';
+    text-decoration: none;
     transition: all 0.1s ease;
-  }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0; 
+}
+
 
   .button-left:hover{
     background-color: #3a3535a1;

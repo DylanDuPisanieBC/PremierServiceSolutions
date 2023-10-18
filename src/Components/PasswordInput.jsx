@@ -3,8 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import './PasswordInput.css';
 
-const PasswordInput = () => {
-  const [password, setPassword] = useState('');
+const PasswordInput = ({ onChange, value }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleTogglePassword = () => {
@@ -13,14 +12,10 @@ const PasswordInput = () => {
 
   return (
     <div className="password-input-container">
-      <input
-        className="custom-input"
-        type={showPassword ? 'text' : 'password'}
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+      <input className="custom-input" type={showPassword ? 'text' : 'password'} value={value} onChange={onChange}
       />
       <div className="password-icon" onClick={handleTogglePassword}>
-        <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+        <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} style={{height: '1.5vw'}} />
       </div>
     </div>
   );

@@ -1,14 +1,14 @@
   /* Font Import */
   @font-face {
     font-family: 'Michroma';
-    src: url('./Fonts/Michroma/Michroma-Regular.ttf') format('truetype'); /* Specify the correct format */
+    src: url('../Fonts/Michroma/Michroma-Regular.ttf') format('truetype'); /* Specify the correct format */
     font-weight: normal;
     font-style: normal;
   }
 
   @font-face {
     font-family: 'Inter';
-    src: url('../Fonts/Inter/Inter-VariableFont_slnt\,wght.ttf') format('truetype'); /* Specify the correct format */
+    src: url('../Fonts/Inter/static/Inter-Regular.ttf') format('truetype'); /* Specify the correct format */
     font-weight: normal;
     font-style: normal;
   }
@@ -93,6 +93,7 @@
     font-size: 1vw;
     text-decoration: none;
     width: fit-content;
+    color: black;
     transition: all 0.2s ease-in-out;
 }
 

@@ -9,7 +9,7 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={() => { console.log("Home component rendered"); return <Home />; }} />
+        <Route exact path="/" component={Home} />
         <Route path="/sign_in" component={SignIn} />
         <Route path="/register" component={Register} />
         <Redirect to="/" />

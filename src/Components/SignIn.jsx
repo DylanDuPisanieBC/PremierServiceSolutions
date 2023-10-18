@@ -2,29 +2,38 @@ import './SignIn.css'
 import icon from '../assets/SignIn/user-circle.svg'
 import { Link } from "react-router-dom";
 import PasswordInput from './PasswordInput.jsx'
+import React, { useState } from 'react';
 
 const SignIn = () =>{
 
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleSignIn = () => {
+    console.log('Username:', username);
+    console.log('Password:', password);
+    };
+
     return (
 
-        <div class='stack'>
-            <div class='container'>
-                <img class='image-centered ' src={icon} alt='user icon'/>
+        <div className='stack'>
+            <div className='container'>
+                <img className='image-centered ' src={icon} alt='user icon'/>
 
-                <div class='input-container'>
+                <div className='input-container'>
                     <p>Username</p>
-                    <input class='custom-input' type='text'/>
+                    <input className='custom-input' type='text' value={username} onChange={(e) => setUsername(e.target.value)}/>
                 </div>
-                <div class='input-container'>
+                <div className='input-container'>
                     <p>Password</p>
-                    <PasswordInput/>
+                    <PasswordInput value={password} onChange={(e) => setPassword(e.target.value)}/>
                 </div>
 
-                <div class='button-container'>
-                    <Link to="/register">
-                        <button class='button-left'>New user</button>
+                <div className='button-container'>
+                    <Link className='button-left' to="/register">
+                        New user
                     </Link>
-                    <button class='button-right'>Sign In</button>
+                    <button className='button-right' onClick={handleSignIn}>Sign In</button>
                 </div>
             </div>
         </div>

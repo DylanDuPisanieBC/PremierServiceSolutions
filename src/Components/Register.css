@@ -1,14 +1,14 @@
   /* Font Import */
   @font-face {
     font-family: 'Michroma';
-    src: url('./Fonts/Michroma/Michroma-Regular.ttf') format('truetype'); /* Specify the correct format */
+    src: url('../Fonts/Michroma/Michroma-Regular.ttf') format('truetype'); /* Specify the correct format */
     font-weight: normal;
     font-style: normal;
   }
 
   @font-face {
     font-family: 'Inter';
-    src: url('../Fonts/Inter/Inter-VariableFont_slnt\,wght.ttf') format('truetype'); /* Specify the correct format */
+    src: url('../Fonts/Inter/static/Inter-Regular.ttf') format('truetype'); /* Specify the correct format */
     font-weight: normal;
     font-style: normal;
   }
@@ -70,10 +70,11 @@
   .custom-input {
     height: 2.5vw;
     width: 100%;
+    font-size: 1.2vw;
     border-radius: 30px;
     border-style: none;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
     box-sizing: border-box;   
   }
 
@@ -126,8 +127,15 @@
   }
 
   .link {
+    text-decoration: none;
     font-family: 'Inter', 'sans-serif';
+    color: black;
   }
+
+  .link:hover {
+    transform: scale(1.1);
+    text-decoration: underline;
+ }
 
  
 
