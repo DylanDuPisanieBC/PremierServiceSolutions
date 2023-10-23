@@ -12,23 +12,23 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         </button>
 
         <div className="panel">
-            <a href="#">+ Create new client</a>
+            <a href="/add_client">+ Create new client</a>
         </div>
 
         <div className="panel">
-            <a href="#">🔍 View client details</a>
+            <a href="/view_client">🔍 View client details</a>
         </div>
 
         <div className="panel">
-            <a href="#">+ Create job card</a>
+            <a href="/add_job">+ Create job card</a>
         </div>
 
         <div className="panel">
-            <a href="#">🔍 View job cards</a>
+            <a href="/view_jobs">🔍 View job cards</a>
         </div>
 
         <div className="panel">
-            <a href="#">🔍 View employees</a>
+            <a href="/view_employees">🔍 View employees</a>
         </div>
 
         <button id="sidebarBtn">Log out</button>

@@ -13,7 +13,7 @@
   
   .panel {
     padding: 15px;
-    border-bottom: 1px solid #444; /* Add a border between links */
+    border-bottom: 1px solid #444;
     transition: background-color 0.3s;
   }
   
@@ -33,14 +33,13 @@
     display: block;
     text-decoration: none;
     color: #fff;
-    border-radius: 0 10px 10px 0; /* Rounded left corners */
+    border-radius: 0 10px 10px 0;
   }
   
   #sidebar a:hover {
     background-color: #555;
   }
   
-  /* Rounded corners for the last link in the sidebar */
   #sidebar a:last-child {
     border-bottom: none;
     border-radius: 0 0 10px 0;
