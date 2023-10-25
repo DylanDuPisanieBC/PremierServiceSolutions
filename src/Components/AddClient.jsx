@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Sidebar from './Sidebar';
-import './AddClient.css';
+import './CSS/AddClient.css';
 
 const AddClient = ({ sidebarOpen }) => {
   const [isIndividual, setIsIndividual] = useState(true);

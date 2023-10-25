@@ -1,0 +1,79 @@
+.view-jobs-container {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-image: url('/src/Components/Images/top-view-desk-assortment-with-copy-space.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 100vh;
+  margin-left: 200px;
+}
+
+.view-jobs-header {
+  margin-left: 20px;
+  margin-top: 0;
+  padding-top: 30px;
+  font-weight: 800;
+}
+
+.job-details-table {
+  width: 60%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.job-details-table th,
+.job-details-table td {
+  padding: 12px;
+  text-align: left;
+  border-right: 5px solid #D9D9D9;
+}
+
+.job-details-table th:last-child,
+.job-details-table td:last-child {
+  border-right: none;
+}
+
+.job-details-table th {
+  background-color: #4caf50;
+  color: white;
+  border: 2px solid #4caf50;
+}
+
+.job-details-table tbody tr:nth-child(even) {
+  background-color: #e6e6e6;
+}
+
+.job-details-table tbody tr:hover {
+  background-color: #e0e0e0;
+}
+
+.property {
+  font-weight: bold;
+  font-size: large;
+}
+
+.property-value {
+  font-weight: bold;
+  font-size: large;
+}
+
+
+.delete-button {
+  padding: 10px 15px;
+  cursor: pointer;
+  background-color: #f56562;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  margin-left: 43%;
+}
+
+.delete-button:hover {
+  background-color: #c62828;
+}

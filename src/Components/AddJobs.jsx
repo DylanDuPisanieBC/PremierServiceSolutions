@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Sidebar from './Sidebar';
-import './AddJobs.css';
+import './CSS/AddJobs.css';
 
 const AddJobs = ({ sidebarOpen }) => {
   const [notes, setNotes] = useState('');

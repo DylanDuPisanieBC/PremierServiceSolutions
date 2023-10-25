@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Sidebar.css';
+import './CSS/Sidebar.css';
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   return (
@@ -14,7 +14,8 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         </div>
 
         <div className="panel">
-            <a href="/view_client">🔍 View client details</a>
+            <a href="/view_client_details">🔍 View client details</a>
+
         </div>
 
         <div className="panel">
@@ -22,11 +23,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         </div>
 
         <div className="panel">
-            <a href="/view_jobs">🔍 View job cards</a>
+            <a href="/View_Jobs">🔍 View job cards</a>
         </div>
 
         <div className="panel">
-            <a href="/view_employees">🔍 View employees</a>
+            <a href="/View_Employees">🔍 View employees</a>
         </div>
 
         <button id="sidebarBtn">Log out</button>
