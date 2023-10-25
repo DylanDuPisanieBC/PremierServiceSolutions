@@ -27,7 +27,7 @@ const AddClient = ({ sidebarOpen }) => {
     <div className="add-client-container">
       <Sidebar isOpen={sidebarOpen} toggleSidebar={() => {}} />
       <h2 className="add-client-header">Add Client</h2>
-      <form className={sidebarOpen ? 'content-open' : 'content-closed'} onSubmit={handleFormSubmit}>
+      <form className='form' onSubmit={handleFormSubmit}>
         <div>
             <div className="form-group">
                 <label>Client type:</label>

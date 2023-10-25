@@ -1,6 +1,5 @@
-/* Sidebar.css */
-#sidebar {
-    background-color: #333;
+#bar {
+    background-color: #807876;
     color: #fff;
     height: 100vh;
     width: 200px;
@@ -8,18 +7,28 @@
     left: 0;
     top: 0;
     overflow-y: auto;
-    
+  }
+
+  #sidebar {
+    background-color: #d9d9d9;
+    width: 195px;
   }
   
   .panel {
-    padding: 15px;
-    border-bottom: 1px solid #444;
-    transition: background-color 0.3s;
+    padding: 11px;
+    margin-top: 20px;
+    border: 2px solid #000000;
+    border-radius: 28px;
+    background-color: white;
+    width: 160px;
+    height: 20px;
+    margin-left: 6px;
   }
   
   #sidebarBtn {
     display: block;
     padding: 15px;
+    margin-top: 165%;
     font-size: 16px;
     background-color: #555;
     color: #fff;
@@ -32,23 +41,25 @@
   #sidebar a {
     display: block;
     text-decoration: none;
-    color: #fff;
-    border-radius: 0 10px 10px 0;
+    color: black;
+    border-radius: 10px;
+    text-align: left;
   }
   
   #sidebar a:hover {
-    background-color: #555;
+    background-color: rgb(86, 86, 213);
   }
-  
-  #sidebar a:last-child {
-    border-bottom: none;
-    border-radius: 0 0 10px 0;
+
+  #sidebar div.panel:hover{
+    background-color: rgb(86, 86, 213);
   }
+
   #openBtn {
     font-size: 20px;
     cursor: pointer;
+    width: 200px;
     padding: 10px;
-    background-color: #333;
+    background-color: #807876;
     color: #fff;
     border: none;
     align-items: center;
