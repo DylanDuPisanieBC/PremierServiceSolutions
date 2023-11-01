@@ -1,4 +1,4 @@
-import './Register.css'
+import './CSS/Register.css'
 import icon from '../assets/SignIn/user-circle.svg'
 import { Link } from "react-router-dom";
 import PasswordInput from './PasswordInput.jsx'
