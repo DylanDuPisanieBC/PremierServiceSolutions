@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.group3.serverside.Entity.ClientEntity;
+import com.group3.serverside.Exception.ResourceNotFoundException;
 import com.group3.serverside.Repository.ClientRepo;
 
 @RestController
@@ -32,7 +33,9 @@ public class ClientController {
     // Get by id
     @GetMapping("/client/{id}")
     public ResponseEntity<ClientEntity> getClientById(@PathVariable Integer id){
-        ClientEntity client = clientRepo.findById(id).orElse(null);
+        ClientEntity client = clientRepo.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Client does not exist with id: " + id));
+
         return ResponseEntity.ok(client);
     }
 
@@ -45,7 +48,8 @@ public class ClientController {
     // Update client
     @PutMapping("/client/update/{id}")
     public ResponseEntity<ClientEntity> updateClient(@PathVariable Integer id, @RequestBody ClientEntity clientDetails) {
-        ClientEntity client = clientRepo.findById(id).orElse(null);
+        ClientEntity client = clientRepo.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Client does not exist with id: " + id));
 
         client.setAlias(clientDetails.getAlias());
         client.setContract_id(clientDetails.getContract_id());
@@ -61,7 +65,8 @@ public class ClientController {
     // Delete client
     @DeleteMapping("/client/delete/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteEmployee(@PathVariable Integer id) {
-        ClientEntity client = clientRepo.findById(id).orElse(null);
+        ClientEntity client = clientRepo.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Client does not exist with id: " + id));
 
         clientRepo.delete(client);
         Map<String, Boolean> response = new HashMap<>();
