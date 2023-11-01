@@ -1,14 +1,10 @@
 package com.group3.serverside.Entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,16 +27,8 @@ public class JobEntity {
     @Column(name = "hoc_notes")
     private String hoc_notes;
 
-    //@ManyToOne
-    //@JoinColumn(name = "employee_id")
-    //private EmployeeEntity employee;
-
     @Column(name = "employee_id")
     private int employee_id;
-
-    //@ManyToOne
-    //@JoinColumn(name = "call_id")
-    //private CallEntity call;
 
     @Column(name = "call_id")
     private int call_id;
