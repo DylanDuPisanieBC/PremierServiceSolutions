@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Sidebar from './Sidebar';
-import './CSS/ViewJobs.css'; 
+import './CSS/ViewDetails.css'; 
 
 const ViewJobs = ({ sidebarOpen }) => {
   const [loading, setLoading] = useState(true);
@@ -9,7 +9,7 @@ const ViewJobs = ({ sidebarOpen }) => {
 
   useEffect(() => {
     axios.get('http://localhost:8080/api/v1/jobs').then((res) => {
-
+      // Fetch job details from server API and store it jobs array
       console.log(res);
       setJobs(res.data);
       setLoading(false);
@@ -27,14 +27,15 @@ const ViewJobs = ({ sidebarOpen }) => {
     )
   }
 
-  
-
   var jDetails = "";
   jDetails = jobs.map( (item) => {
+    // Send selected job id to next view
     const handleEditClick = () => {     
       console.log(item.job_id);
       };
+
     return (
+      // Display the stored array values in the table
       <tr key={item.job_id}>
         <td>{item.job_id}</td>
         <td>{item.status}</td>
@@ -54,12 +55,12 @@ const ViewJobs = ({ sidebarOpen }) => {
 
 
   return (
-    <div className="view-jobs-container">
+    <div className="view-container">
       <Sidebar isOpen={sidebarOpen} toggleSidebar={() => {}} />
-      <h2 className="view-jobs-header">View Jobs</h2>
+      <h2 className="view-header">View Jobs</h2>
       <form className={sidebarOpen ? 'content-open' : 'content-closed'}>
-        <div className="job-details">
-          <table className="job-details-table" id="example">
+        <div className="details">
+          <table className="details-table" id="example">
             <thead>
               <tr>
                 <th>Job ID</th>

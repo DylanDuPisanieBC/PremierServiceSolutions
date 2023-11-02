@@ -1,90 +1,80 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Sidebar from './Sidebar';
-import './CSS/ViewClientDetails.css'; 
+import './CSS/ViewDetails.css'; 
 
 const ViewClientDetails = ({ sidebarOpen }) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [clientDetails, setClientDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [clients, setClients] = useState([]);
 
-  // Dummy data
-  const dummyData = [
-    {
-      id: 1,
-      name: 'John',
-      surname: 'Doe',
-      businessName: 'Doe Corp',
-      contactNumber: '123-456-7890',
-      address: '123 Main St, City',
-    }
-  ];
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/v1/clients').then((res) => {
+      // Fetch client details from server API and store it clients array
+      console.log(res);
+      setClients(res.data);
+      setLoading(false);
 
-  const handleSearch = () => {
-    // Search ...  :)
-    setClientDetails(dummyData[0]);
-    
-  };
+    }).catch((err) => {
+      console.log(err);
+    });
+  }, [])
+  
+  if(loading){
+    return(
+      <div>
+        Loading...
+      </div>
+    )
+  }
 
-  const handleUpdate = () => {
-    // Update Client details ...  :)
-    console.log('Updating client details:', clientDetails);
-  };
+  var clientDetails = "";
+  clientDetails = clients.map( (item) => {
+    // Send selected client id to next view
+    const handleEditClick = () => {     
+      console.log(item.client_id);
+      };
+
+    return (
+      // Display the stored array values in the table
+      <tr key={item.client_id}>
+        <td>{item.client_id}</td>
+        <td>{item.alias}</td>
+        <td>{item.contract_id}</td>
+        <td>{item.contact_number}</td>
+        <td>{item.client_type}</td>
+        <td>{item.address}</td>
+        <td>{item.email}</td>
+        <td>
+          <button type="button" onClick={handleEditClick} className="update-button">Edit</button>
+          <button type="button" className="delete-button">Delete</button>
+        </td>
+      </tr>
+    )
+  });
 
   return (
-    <div className="view-client-details-container">
+    <div className="view-container">
       <Sidebar isOpen={sidebarOpen} toggleSidebar={() => {}} />
-      <h2 className="view-client-details-header">View Client Details</h2>
+      <h2 className="view-header">View Client Details</h2>
       <form className={sidebarOpen ? 'content-open' : 'content-closed'}>
-        <div className="search-bar">
-          <label htmlFor="searchQuery" className="label-input-group">
-            Search Client:
-          </label>
-          <input
-            type="text"
-            id="searchQuery"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="input-field"
-          />
-          <button type="button" onClick={handleSearch} className="search-button">
-            Search
-          </button>
-        </div>
-
-        <div className="client-details">
-          <table className="client-details-table">
+        <div className="details">
+          <table className="details-table">
             <thead>
               <tr>
-                <th>Client Details</th>
-                <th></th>
+                <th>Client ID</th>
+                <th>Alias</th>
+                <th>Contract ID</th>
+                <th>Contact Number</th>
+                <th>Client Type</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody className='Table-Body'>
-              <tr>
-                <td className="property">Name:</td>
-                <td className="property-value">{clientDetails?.name}</td>
-              </tr>
-              <tr>
-                <td className="property">Surname:</td>
-                <td className="property-value">{clientDetails?.surname}</td>
-              </tr>
-              <tr>
-                <td className="property">Business Name:</td>
-                <td className="property-value">{clientDetails?.businessName}</td>
-              </tr>
-              <tr>
-                <td className="property">Contact Number:</td>
-                <td className="property-value">{clientDetails?.contactNumber}</td>
-              </tr>
-              <tr>
-                <td className="property">Address:</td>
-                <td className="property-value">{clientDetails?.address}</td>
-              </tr>
+              {clientDetails}
             </tbody>
           </table>
-
-          <button type="button" onClick={handleUpdate} className="update-button">
-            Update Details
-          </button>
         </div>
       </form>
     </div>
