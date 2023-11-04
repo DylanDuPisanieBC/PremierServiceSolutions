@@ -7,5 +7,7 @@ import com.group3.serverside.Entity.EmployeeEntity;
 
 @Repository
 public interface EmployeeRepo extends JpaRepository<EmployeeEntity, Integer>{
-    
+    EmployeeEntity findByUsernameAndPassword(String username, String password);
+    EmployeeEntity findByEmail(String email);
+    EmployeeEntity findByUsername(String username);
 }
