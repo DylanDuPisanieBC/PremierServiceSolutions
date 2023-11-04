@@ -6,26 +6,22 @@ const ViewJobs = ({setLoading}) => {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
-
     setLoading(true);
-
+  
     setTimeout(() => {
-      axios.get('http://localhost:8080/api/v1/jobs').then((res) => {
-        // Fetch job details from server API and store it jobs array
-        console.log(res);
-        setJobs(res.data);
-        setLoading(false);
-
-      }).catch((err) => {
-        console.log(err);
-      });
+      axios.get('http://localhost:8080/api/v1/jobs')
+        .then((res) => {
+          // Fetch job details from the server API and store them in the 'jobs' array
+          console.log(res);
+          setJobs(res.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          alert(`Error: ${err}`);
+        });
     }, 500);
-    
-    }).catch((err) => {
-      console.log(err);
-      alert(`Error: ${err}`);
-    });
-  }, [])
+  }, []);
 
   // Delete job
   const deleteJob = (e, id) => {
@@ -45,6 +41,7 @@ const ViewJobs = ({setLoading}) => {
         }).catch(function (err) {
           // error catch and message display
           alert(`Error: ${err}`);
+          thisClicked.innerText = "Delete";
         })
   }
   

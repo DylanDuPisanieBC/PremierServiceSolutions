@@ -14,7 +14,7 @@ const Dashboard = () => {
 
   const [view, setView] = useState('main');
   const [sidebarState, setSidebar] = useState(true);
-  const [loading, setLoadingView] = useState(true);
+  const [loading, setLoadingView] = useState(false);
 
   return (
     <div className='Main'>
