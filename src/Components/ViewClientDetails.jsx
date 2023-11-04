@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './CSS/ViewDetails.css'; 
 
-const ViewClientDetails = ({setLoading}) => {
+const ViewClientDetails = ({setLoading, setView}) => {
   const [clients, setClients] = useState([]);
 
   useEffect(() => {
@@ -30,7 +30,6 @@ const ViewClientDetails = ({setLoading}) => {
     // Change delete button text to deleting after click
     const thisClicked = e.currentTarget;
     thisClicked.innerText = "Deleting...";
-
     // API delete request
     axios.delete(`http://localhost:8080/api/v1/client/delete/${id}`)
         .then(() => {
@@ -93,6 +92,7 @@ const ViewClientDetails = ({setLoading}) => {
           </table>
         </div>
       </form>
+      <button className='add-button' onClick={() => setView('AddClient')} >Add Client</button>
     </div>
   );
 };

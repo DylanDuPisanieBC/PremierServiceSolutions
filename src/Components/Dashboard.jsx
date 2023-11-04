@@ -4,6 +4,7 @@ import Sidebar from './Sidebar';
 import DashboardComponent from './ViewDashboard';
 import CallsComponent from './ViewCalls';
 import ClientsComponent from './ViewClientDetails';
+import AddClient from './AddClient';
 import ContractsComponent from './ViewContracts';
 import EmployeesComponent from './ViewEmployees';
 import JobCardsComponent from './ViewJobs';
@@ -21,12 +22,18 @@ const Dashboard = () => {
       <Sidebar setView={setView} setSidebar={setSidebar}/>
       <div className={sidebarState ? 'view-container-open' : 'view-container-closed'}>    
         {loading === true && <LoadingComponent/>}
-        {view === 'calls' && <CallsComponent setLoading={setLoadingView} />}
-        {view === 'clients' && <ClientsComponent setLoading={setLoadingView} />}
-        {view === 'contracts' && <ContractsComponent setLoading={setLoadingView} />}
-        {view === 'employees' && <EmployeesComponent setLoading={setLoadingView} />}
-        {view === 'jobs' && <JobCardsComponent setLoading={setLoadingView} />}
-        {view === 'main' &&  <DashboardComponent setLoading={setLoadingView} />}
+        {view === 'calls' && <CallsComponent setLoading={setLoadingView}/>}
+       
+        {view === 'clients' && <ClientsComponent setLoading={setLoadingView} setView={setView}/>}
+        {view === 'AddClient' && <AddClient setLoading={setLoadingView} setView={setView}/>}
+
+        {view === 'contracts' && <ContractsComponent setLoading={setLoadingView}/>}
+
+        {view === 'employees' && <EmployeesComponent setLoading={setLoadingView}/>}
+
+        {view === 'jobs' && <JobCardsComponent setLoading={setLoadingView}/>}
+
+        {view === 'main' &&  <DashboardComponent setLoading={setLoadingView}/>}
       </div>
     </div>
   );

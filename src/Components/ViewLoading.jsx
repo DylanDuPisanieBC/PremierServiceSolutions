@@ -6,8 +6,9 @@ const ViewCalls = () => {
 
   return (
     <div>
-      <div className="ring">Loading
-        <span></span>
+      <div className="ring">
+        Loading
+        <span className='span'></span>
       </div>
     </div>
     

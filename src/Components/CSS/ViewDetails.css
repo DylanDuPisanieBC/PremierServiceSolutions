@@ -73,6 +73,27 @@
   background-color: #e0e0e0;
 }
 
+.add-button {
+  margin: 20px 40px;
+  padding: 10px 15px;
+  cursor: pointer;
+  background-color: rgb(26, 250, 239);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+  padding: 10px 15px;
+  cursor: pointer;
+  background-color: #3580f1;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
 .update-button {
   padding: 10px 15px;
   cursor: pointer;
