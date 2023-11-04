@@ -5,29 +5,28 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   return (
     <div id="bar">
       <div id="sidebar" className={isOpen ? 'open' : 'closed'}>
-        <button id="openBtn" onClick={toggleSidebar}>
-            ☰ {isOpen ? 'Close' : 'Open'} Menu
+        <button id="openBtn">
+            ☰ Main Menu
         </button>
 
         <div className="panel">
-            <a href="/add_client">➕ Create new client</a>
+            <a href="/View_Calls">🔍 Calls</a>
         </div>
 
         <div className="panel">
-            <a href="/view_client_details">🔍 View client details</a>
-
+            <a href="/view_client_details">🔍 Clients</a>
         </div>
 
         <div className="panel">
-            <a href="/add_job">➕ Create job card</a>
+            <a href="/View_Contracts">🔍 Contracts</a>
         </div>
 
         <div className="panel">
-            <a href="/View_Jobs">🔍 View job cards</a>
+            <a href="/View_Employees">🔍 Employees</a>
         </div>
 
         <div className="panel">
-            <a href="/View_Employees">🔍 View employees</a>
+            <a href="/View_Jobs">🔍 Job Cards</a>
         </div>
 
         <button id="sidebarBtn">Log out</button>

@@ -8,6 +8,8 @@ import AddJob from './Components/AddJobs.jsx';
 import ViewClientDetails from './Components/ViewClientDetails.jsx';
 import ViewEmployees from './Components/ViewEmployees.jsx';
 import ViewJobs from './Components/ViewJobs.jsx';
+import ViewCalls from './Components/ViewCalls.jsx';
+import ViewContracts from './Components/ViewContracts.jsx';
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
         <Route path="/view_client_details" component={ViewClientDetails} />
         <Route path="/View_Employees" component={ViewEmployees} /> 
         <Route path="/View_Jobs" component={ViewJobs} /> 
+        <Route path="/View_Calls" component={ViewCalls} /> 
+        <Route path="/View_Contracts" component={ViewContracts} /> 
         <Redirect to="/" />
       </Switch>
     </Router>
