@@ -1,12 +1,25 @@
-.view-container {
-  margin: 0;
+.view-container-open {
+  margin: 0px;
   font-family: Arial, sans-serif;
+  height: 100vh;
+  margin-left: 200px;
   background-image: url('/src/Components/Images/top-view-desk-assortment-with-copy-space.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
+  transition: all 0.2s ease-out;
+}
+
+.view-container-closed {
+  margin: 0px;
+  font-family: Arial, sans-serif;
   height: 100vh;
-  margin-left: 200px;
+  margin-left: 50px;
+  background-image: url('/src/Components/Images/top-view-desk-assortment-with-copy-space.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  transition: all 0.2s ease-out;
 }
 
 .view-header {
@@ -89,3 +102,5 @@
 .delete-button:hover {
   background-color: #c62828;
 }
+
+

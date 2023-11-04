@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Sidebar from './Sidebar';
 import './CSS/ViewDetails.css'; 
 
-const ViewContracts = ({ sidebarOpen }) => {
-  const [loading, setLoading] = useState(true);
+const ViewContracts = ({setLoading}) => {
   const [contracts, setContracts] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/v1/contracts').then((res) => {
-      // Fetch contracts details from server API and store it contracts array
-      console.log(res);
-      setContracts(res.data);
-      setLoading(false);
 
-    }).catch((err) => {
-      console.log(err);
-    });
+    setLoading(true);
+  
+    setTimeout(() => {
+      axios.get('http://localhost:8080/api/v1/contracts')
+        .then((res) => {
+          console.log(res);
+          setContracts(res.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }, 500);
   }, [])
 
   // Delete contract
@@ -40,13 +43,7 @@ const ViewContracts = ({ sidebarOpen }) => {
         })
   }
   
-  if(loading){
-    return(
-      <div>
-        Loading...
-      </div>
-    )
-  }
+  
 
   var contractDetails = "";
   contractDetails = contracts.map( (item) => {
@@ -72,10 +69,9 @@ const ViewContracts = ({ sidebarOpen }) => {
   });
 
   return (
-    <div className="view-container">
-      <Sidebar isOpen={sidebarOpen} toggleSidebar={() => {}} />
+    <div>
       <h2 className="view-header">View Contract Details</h2>
-      <form className={sidebarOpen ? 'content-open' : 'content-closed'}>
+      <form>
         <div className="details">
           <table className="details-table">
             <thead>

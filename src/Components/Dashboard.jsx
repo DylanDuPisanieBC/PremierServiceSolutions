@@ -1,21 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CSS/Dashboard.css';
 import Sidebar from './Sidebar';
+import DashboardComponent from './ViewDashboard';
+import CallsComponent from './ViewCalls';
+import ClientsComponent from './ViewClientDetails';
+import ContractsComponent from './ViewContracts';
+import EmployeesComponent from './ViewEmployees';
+import JobCardsComponent from './ViewJobs';
+import LoadingComponent from './ViewLoading';
+
 
 const Dashboard = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
+  const [view, setView] = useState('main');
+  const [sidebarState, setSidebar] = useState(true);
+  const [loading, setLoadingView] = useState(true);
 
   return (
-    <div>
-      <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
-
-      <div id="content" className={sidebarOpen ? 'content-open' : 'content-closed'}>
-        <h2>Dashboard Content</h2>
-        <p>This is where your dashboard content goes.</p>
+    <div className='Main'>
+      <Sidebar setView={setView} setSidebar={setSidebar}/>
+      <div className={sidebarState ? 'view-container-open' : 'view-container-closed'}>    
+        {loading === true && <LoadingComponent/>}
+        {view === 'calls' && <CallsComponent setLoading={setLoadingView} />}
+        {view === 'clients' && <ClientsComponent setLoading={setLoadingView} />}
+        {view === 'contracts' && <ContractsComponent setLoading={setLoadingView} />}
+        {view === 'employees' && <EmployeesComponent setLoading={setLoadingView} />}
+        {view === 'jobs' && <JobCardsComponent setLoading={setLoadingView} />}
+        {view === 'main' &&  <DashboardComponent setLoading={setLoadingView} />}
       </div>
     </div>
   );

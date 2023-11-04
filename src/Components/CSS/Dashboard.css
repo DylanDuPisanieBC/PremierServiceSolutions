@@ -1,14 +1,5 @@
-/* Dashboard.css */
-body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    transition: margin-left 0.3s;
-  }
-  
-  #content {
-    padding: 16px;
-    transition: margin-left 0.3s;
+.content {    
+    height: 100vh;
   }
   
   
