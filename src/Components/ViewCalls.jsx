@@ -1,31 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Sidebar from './Sidebar';
 import './CSS/ViewDetails.css'; 
 
-const ViewCalls = ({ sidebarOpen }) => {
-  const [loading, setLoading] = useState(true);
+const ViewCalls = ({setLoading}) => {
   const [calls, setCalls] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/v1/calls').then((res) => {
-      // Fetch call details from server API and store it call array
-      console.log(res);
-      setCalls(res.data);
-      setLoading(false);
 
-    }).catch((err) => {
-      console.log(err);
-    });
+    setLoading(true);
+
+    setTimeout(() => {
+      axios.get('http://localhost:8080/api/v1/calls').then((res) => {
+        // Fetch call details from server API and store it call array
+        console.log(res);
+        setCalls(res.data);
+        setLoading(false);
+
+      }).catch((err) => {
+        console.log(err);
+      });
+    }, 500);
   }, [])
-  
-  if(loading){
-    return(
-      <div>
-        Loading...
-      </div>
-    )
-  }
 
   var callDetails = "";
   callDetails = calls.map( (item) => {
@@ -50,10 +45,9 @@ const ViewCalls = ({ sidebarOpen }) => {
   });
 
   return (
-    <div className="view-container">
-      <Sidebar isOpen={sidebarOpen} toggleSidebar={() => {}} />
+    <div>
       <h2 className="view-header">View Call Details</h2>
-      <form className={sidebarOpen ? 'content-open' : 'content-closed'}>
+      <form>
         <div className="details">
           <table className="details-table">
             <thead>

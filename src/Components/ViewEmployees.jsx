@@ -1,31 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Sidebar from './Sidebar';
 import './CSS/ViewDetails.css';
 
-const ViewEmployees = ({ sidebarOpen }) => {
-  const [loading, setLoading] = useState(true);
+const ViewEmployees = ({setLoading}) => {
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/v1/employees').then((res) => {
-      // Fetch employee details from server API and store it employees array
-      console.log(res);
-      setEmployees(res.data);
-      setLoading(false);
 
-    }).catch((err) => {
-      console.log(err);
-    });
+    setLoading(true);
+
+    setTimeout(() => {
+      axios.get('http://localhost:8080/api/v1/employees').then((res) => {
+        // Fetch employee details from server API and store it employees array
+        console.log(res);
+        setEmployees(res.data);
+        setLoading(false);
+
+      }).catch((err) => {
+        console.log(err);
+      });
+    }, 500);
   }, [])
   
-  if(loading){
-    return(
-      <div>
-        Loading...
-      </div>
-    )
-  }
 
   var employeeDetails = "";
   employeeDetails = employees.map( (item) => {
@@ -54,10 +50,9 @@ const ViewEmployees = ({ sidebarOpen }) => {
 
 
   return (
-    <div className="view-container">
-      <Sidebar isOpen={sidebarOpen} toggleSidebar={() => {}} />
+    <div>
       <h2 className="view-header">View Employee Details</h2>
-      <form className={sidebarOpen ? 'content-open' : 'content-closed'}>
+      <form>
         <div className="details">
           <table className="details-table">
             <thead>

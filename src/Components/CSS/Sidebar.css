@@ -1,4 +1,4 @@
-#bar {
+.bar-open {
     background-color: #807876;
     color: #fff;
     height: 100vh;
@@ -7,28 +7,42 @@
     left: 0;
     top: 0;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s ease-out;
   }
 
-  #sidebar {
+  .bar-closed {
+    background-color: #807876;
+    color: #fff;
+    height: 100vh;
+    width: 50px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s ease-out;
+  }
+
+  .sidebar-open {
     background-color: #d9d9d9;
-    width: 195px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-closed {
+    background-color: #807876;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
   }
   
-  .panel {
-    padding: 11px;
-    margin-top: 20px;
-    border: 2px solid #000000;
-    border-radius: 28px;
-    background-color: white;
-    width: 160px;
-    height: 20px;
-    margin-left: 6px;
-  }
-  
-  #sidebarBtn {
+  .LogOutButton-open {
     display: block;
     padding: 15px;
-    margin-top: 165%;
     font-size: 16px;
     background-color: #555;
     color: #fff;
@@ -37,24 +51,39 @@
     width: 100%;
     text-align: left;
   }
-  
-  #sidebar a {
-    display: block;
-    text-decoration: none;
-    color: black;
-    border-radius: 10px;
-    text-align: left;
-  }
-  
-  #sidebar a:hover {
-    background-color: rgb(86, 86, 213);
+
+  .LogOutButton-closed {
+    display: none;
   }
 
-  #sidebar div.panel:hover{
-    background-color: rgb(86, 86, 213);
+  .SidebarButton-open{
+    margin: 10px 5px 10px 5px;
+    padding: 10px;
+    border-radius: 20px;
+    text-align: start;
+    background-color: white;
+    font-family: 'Inter';
+    font-size: 15px;
+    transition: 0.1s linear;
+    max-height: 50px;
+    text-wrap: nowrap;
   }
 
-  #openBtn {
+  .SidebarButton-closed{
+    display: none;
+  }
+
+  
+  .SidebarButton-open:hover {
+    background-color: rgb(86, 86, 213);
+    color: white;
+  }
+
+  .SidebarButton-open:active {
+    transform: scale(0.95);
+  }
+
+  .openBtn-open {
     font-size: 20px;
     cursor: pointer;
     width: 200px;
@@ -64,13 +93,13 @@
     border: none;
     align-items: center;
   }
-  
-  /* Closed state styles */
-  #content.content-closed {
-    margin-left: 0;
+
+  .openBtn-closed {
+    font-size: 20px;
+    cursor: pointer;
+    width: 100%px;
+    padding: 10px;
+    background-color: #807876;
+    color: #fff;
+    border: none;
   }
-  
-  /* Open state styles */
-  #content.content-open {
-    margin-left: 200px;
-  }  
