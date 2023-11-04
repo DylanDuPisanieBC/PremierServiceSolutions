@@ -18,6 +18,27 @@ const ViewContracts = ({ sidebarOpen }) => {
       console.log(err);
     });
   }, [])
+
+  // Delete contract
+  const deleteContract = (e, id) => {
+    // prevent the page from refreshing
+    e.preventDefault();
+
+    // Change delete button text to deleting after click
+    const thisClicked = e.currentTarget;
+    thisClicked.innerText = "Deleting...";
+
+    // API delete request
+    axios.delete(`http://localhost:8080/api/v1/contract/delete/${id}`)
+        .then(() => {
+          // Delete record and display message
+          alert("Contract deleted successfully");
+          thisClicked.closest("tr").remove();
+        }).catch(function (err) {
+          // error catch and message display
+          alert(`Error: ${err}`);
+        })
+  }
   
   if(loading){
     return(
@@ -44,7 +65,7 @@ const ViewContracts = ({ sidebarOpen }) => {
         <td>{item.overtime_rate}</td>
         <td>
           <button type="button" onClick={handleEditClick} className="update-button">Edit</button>
-          <button type="button" className="delete-button">Delete</button>
+          <button type="button" onClick={(e) => deleteContract(e, item.contract_id)} className="delete-button">Delete</button>
         </td>
       </tr>
     )
