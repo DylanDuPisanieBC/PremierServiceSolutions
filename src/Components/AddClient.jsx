@@ -13,6 +13,16 @@ const AddClient = ({setView}) => {
   const [contactNumber, setContactNumber] = useState('');
   const [address, setAddress] = useState('');
   const [selectedContract, setSelectedContract] = useState(null);
+  const [Error, setErrorMessage] = useState('');
+
+  const clientInfo = new FormData();
+  clientInfo.append('type', clientType);
+  clientInfo.append('name', name);
+  clientInfo.append('surname', surname);
+  clientInfo.append('businessName', surname);
+  clientInfo.append('contactNumber', surname);
+  clientInfo.append('address', address);
+  
 
   const [contracts, setContracts] = useState([]);
 
@@ -22,11 +32,63 @@ const AddClient = ({setView}) => {
     setIsIndividual(type === 'individual');
   };
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
+  const handleFormSubmit = async () => {
 
+    if(CheckAlias() === false){ return;}
+    if(CheckContactNumber() === false){ return;}
+    if(CheckAddress() === false){ return;}
 
   };
+
+  const CheckAlias = () => {
+
+    if(clientType === 'individual') {
+      if(name !== '' && surname !== '') {
+        setErrorMessage("");
+        return true;
+      }else if(name !== '' && surname === '') {
+        setErrorMessage("enter a surname");
+        return false;
+      }else{
+        setErrorMessage("enter a name");
+      }
+    }else{
+      if(businessName !== ''){
+        setErrorMessage("");
+        return true;
+      }
+      setErrorMessage("enter businness name");
+    }
+
+  }
+
+  const CheckContactNumber = () => {
+
+    var intCheck = parseInt(contactNumber);
+
+    if(contactNumber !== '' && contactNumber.length === 10){
+      if(!isNaN(intCheck) && contactNumber === '' + intCheck){
+        setErrorMessage("");
+        return true;
+      }else{
+        setErrorMessage("enter a valid phone number");
+      }
+      
+    }else{
+      setErrorMessage("enter a contact number of length 10");
+    }
+  }
+
+  const CheckAddress = () => {
+
+    if(address !== ''){
+      setErrorMessage("");
+      return true;
+    }
+
+    setErrorMessage("enter an address");
+
+  }
 
   useEffect(() => {
       axios.get('http://localhost:8080/api/v1/contracts').then((res) => {
@@ -51,7 +113,6 @@ const AddClient = ({setView}) => {
       <span className='icon' onClick={()=> setView('clients')}>➜</span>
       <div className="add-client-container">
         <h2 className="add-client-header">Add Client</h2>
-        <form className='form' onSubmit={handleFormSubmit}>
           <div>
               <div className="form-group">
                   <label>Client type:</label>
@@ -161,8 +222,11 @@ const AddClient = ({setView}) => {
              
           </div>
 
-          <button className="submit" type="submit">Add Client</button>
-        </form>
+          {Error && (
+            <div className='error-message'>{Error}</div>
+          )}
+
+          <button className="submit" onClick={handleFormSubmit}>Add Client</button>
       </div>
     </div>
   );
