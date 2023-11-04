@@ -39,9 +39,9 @@ const ViewContracts = ({ sidebarOpen }) => {
       <tr key={item.contract_id}>
         <td>{item.contract_id}</td>
         <td>{item.type}</td>
-        <td>{item.status}</td>
-        <td>{item.start_date}</td>
-        <td>{item.end_date}</td>
+        <td>{item.hours_allocated}</td>
+        <td>{item.charge_rate}</td>
+        <td>{item.overtime_rate}</td>
         <td>
           <button type="button" onClick={handleEditClick} className="update-button">Edit</button>
           <button type="button" className="delete-button">Delete</button>
@@ -60,9 +60,10 @@ const ViewContracts = ({ sidebarOpen }) => {
             <thead>
               <tr>
                 <th>Call ID</th>
-                <th>Client ID</th>
-                <th>Call Start</th>
-                <th>Call End</th>
+                <th>Type</th>
+                <th>Hours Allocated</th>
+                <th>Charge Rate</th>
+                <th>Overtime Rate</th>
                 <th>Actions</th>
               </tr>
             </thead>

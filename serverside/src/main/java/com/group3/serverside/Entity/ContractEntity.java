@@ -26,13 +26,13 @@ public class ContractEntity {
     @Column(name = "type")
     private String type;
 
-    @Column(name = "status")
-    private String status;
+    @Column(name = "hours_allocated")
+    private int hours_allocated;
 
-    @Column(name = "start_date")
-    private LocalDateTime start_date;
+    @Column(name = "charge_rate")
+    private int charge_rate;
 
-    @Column(name = "end_date")
-    private LocalDateTime end_date;
+    @Column(name = "overtime_rate")
+    private int overtime_rate;
 
 }

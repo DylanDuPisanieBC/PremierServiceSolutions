@@ -53,9 +53,9 @@ public class ContractController {
                         .orElseThrow(() -> new ResourceNotFoundException("Contract does not exist with id: " + id));
 
         contract.setType(contractDetails.getType());
-        contract.setStatus(contractDetails.getStatus());
-        contract.setStart_date(contractDetails.getStart_date());
-        contract.setEnd_date(contractDetails.getEnd_date());
+        contract.setHours_allocated(contractDetails.getHours_allocated());
+        contract.setCharge_rate(contractDetails.getCharge_rate());
+        contract.setOvertime_rate(contractDetails.getOvertime_rate());
 
         ContractEntity updatedContract = contractRepo.save(contract);
         return ResponseEntity.ok(updatedContract);
