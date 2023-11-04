@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.group3.serverside.Entity.ContractEntity;
+import com.group3.serverside.Exception.ResourceNotFoundException;
 import com.group3.serverside.Repository.ContractRepo;
 
 @RestController
@@ -31,7 +32,9 @@ public class ContractController {
     // Get by id
     @GetMapping("/contract/{id}")
     public ResponseEntity<ContractEntity> getContractById(@PathVariable Integer id) {
-        ContractEntity contract = contractRepo.findById(id).orElse(null);
+        ContractEntity contract = contractRepo.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Contract does not exist with id: " + id));
+                        
         return ResponseEntity.ok(contract);
     }
 
@@ -44,7 +47,8 @@ public class ContractController {
     // Update contract
     @PutMapping("/contract/update/{id}")
     public ResponseEntity<ContractEntity> updateContract(@PathVariable Integer id, @RequestBody ContractEntity contractDetails) {
-        ContractEntity contract = contractRepo.findById(id).orElse(null);
+        ContractEntity contract = contractRepo.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Contract does not exist with id: " + id));
 
         contract.setType(contractDetails.getType());
         contract.setStatus(contractDetails.getStatus());
@@ -58,7 +62,8 @@ public class ContractController {
     // Delete contract
     @DeleteMapping("/contract/delete/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteContract(@PathVariable Integer id) {
-        ContractEntity contract = contractRepo.findById(id).orElse(null);
+        ContractEntity contract = contractRepo.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Contract does not exist with id: " + id));
 
         contractRepo.delete(contract);
         Map<String, Boolean> response = new HashMap<>();

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.group3.serverside.Entity.CallEntity;
+import com.group3.serverside.Exception.ResourceNotFoundException;
 import com.group3.serverside.Repository.CallRepo;
 
 @RestController
@@ -32,7 +33,9 @@ public class CallController {
     // Get by id
     @GetMapping("/call/{id}")
     public ResponseEntity<CallEntity> getCallById(@PathVariable Integer id){
-        CallEntity call = callRepo.findById(id).orElse(null);
+        CallEntity call = callRepo.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Call does not exist with id: " + id));
+
         return ResponseEntity.ok(call);
     }
 
@@ -45,7 +48,8 @@ public class CallController {
     // Update call
     @PutMapping("/call/update/{id}")
     public ResponseEntity<CallEntity> updateCall(@PathVariable Integer id, @RequestBody CallEntity callDetails) {
-        CallEntity call = callRepo.findById(id).orElse(null);
+        CallEntity call = callRepo.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Call does not exist with id: " + id));
 
         call.setClient_id(callDetails.getClient_id());
         call.setCall_start(callDetails.getCall_start());
@@ -58,7 +62,8 @@ public class CallController {
     // Delete call
     @DeleteMapping("/call/delete/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteCall(@PathVariable Integer id) {
-        CallEntity call = callRepo.findById(id).orElse(null);
+        CallEntity call = callRepo.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Call does not exist with id: " + id));
 
         callRepo.delete(call);
         Map<String, Boolean> response = new HashMap<>();

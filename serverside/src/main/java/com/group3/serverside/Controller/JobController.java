@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.group3.serverside.Entity.JobEntity;
+import com.group3.serverside.Exception.ResourceNotFoundException;
 import com.group3.serverside.Repository.JobRepo;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/v1/")
 public class JobController {
@@ -32,7 +35,9 @@ public class JobController {
     // Get by id
     @GetMapping("/job/{id}")
     public ResponseEntity<JobEntity> getJobById(@PathVariable Integer id){
-        JobEntity job = jobRepo.findById(id).orElse(null);
+        JobEntity job = jobRepo.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Job does not exist with id: " + id));
+                    
         return ResponseEntity.ok(job);
     }
 
@@ -45,7 +50,8 @@ public class JobController {
     // Update job
     @PutMapping("/job/update/{id}")
     public ResponseEntity<JobEntity> updateJob(@PathVariable Integer id, @RequestBody JobEntity jobDetails) {
-        JobEntity job = jobRepo.findById(id).orElse(null);
+        JobEntity job = jobRepo.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Job does not exist with id: " + id));
 
         job.setStatus(jobDetails.getStatus());
         job.setHoc_notes(jobDetails.getHoc_notes());
@@ -62,7 +68,8 @@ public class JobController {
     // Delete job
     @DeleteMapping("/job/delete/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteJob(@PathVariable Integer id) {
-        JobEntity job = jobRepo.findById(id).orElse(null);
+        JobEntity job = jobRepo.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Job does not exist with id: " + id));
 
         jobRepo.delete(job);
         Map<String, Boolean> response = new HashMap<>();

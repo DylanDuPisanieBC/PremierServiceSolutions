@@ -1,109 +1,83 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Sidebar from './Sidebar';
-import './CSS/ViewJobs.css'; 
+import './CSS/ViewDetails.css'; 
 
 const ViewJobs = ({ sidebarOpen }) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [jobDetails, setJobDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [jobs, setJobs] = useState([]);
 
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/v1/jobs').then((res) => {
+      // Fetch job details from server API and store it jobs array
+      console.log(res);
+      setJobs(res.data);
+      setLoading(false);
+
+    }).catch((err) => {
+      console.log(err);
+    });
+  }, [])
   
-  const dummyData = [
-    {
-      id: 1,
-      employeeId: 'E001',
-      requiredSkills: 'React, Node.js',
-      comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      hocNotes: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      priority: 'High',
-      status: 'In Progress',
-      jobId: 'J001',
-    }
-  ];
+  if(loading){
+    return(
+      <div>
+        Loading...
+      </div>
+    )
+  }
 
-  const handleSearch = () => {
-    // Search ...  :)
-    setJobDetails(dummyData[0]);
-  };
+  var jDetails = "";
+  jDetails = jobs.map( (item) => {
+    // Send selected job id to next view
+    const handleEditClick = () => {     
+      console.log(item.job_id);
+      };
 
-  const handleUpdate = () => {
-    // Update Job details ...  :)
-    console.log('Updating job details:', jobDetails);
-  };
+    return (
+      // Display the stored array values in the table
+      <tr key={item.job_id}>
+        <td>{item.job_id}</td>
+        <td>{item.status}</td>
+        <td>{item.hoc_notes}</td>
+        <td>{item.employee_id}</td>
+        <td>{item.call_id}</td>
+        <td>{item.required_skills}</td>
+        <td>{item.comments}</td>
+        <td>{item.priority}</td>
+        <td>
+          <button type="button" onClick={handleEditClick} className="update-button">Edit</button>
+          <button type="button" className="delete-button">Delete</button>
+        </td>
+      </tr>
+    )
+  });
 
-  const handleDelete = () => {
-    // Delete job details ...  :)
-    console.log('Deleting job:', jobDetails);
-  };
 
   return (
-    <div className="view-jobs-container">
+    <div className="view-container">
       <Sidebar isOpen={sidebarOpen} toggleSidebar={() => {}} />
-      <h2 className="view-jobs-header">View Jobs</h2>
+      <h2 className="view-header">View Jobs</h2>
       <form className={sidebarOpen ? 'content-open' : 'content-closed'}>
-        <div className="search-bar">
-          <label htmlFor="searchQuery" className="label-input-group">
-            Search Job:
-          </label>
-          <input
-            type="text"
-            id="searchQuery"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="input-field"
-          />
-          <button type="button" onClick={handleSearch} className="search-button">
-            Search
-          </button>
-        </div>
-
-        <div className="job-details">
-          <table className="job-details-table">
+        <div className="details">
+          <table className="details-table" id="example">
             <thead>
               <tr>
-                <th>Job Details</th>
-                <th></th>
+                <th>Job ID</th>
+                <th>Status</th>
+                <th>Hoc Notes</th>
+                <th>Employee ID</th>
+                <th>Call ID</th>
+                <th>Required Skills</th>
+                <th>Comments</th>
+                <th>Priority</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody className='Table-Body'>
-              <tr>
-                <td className="property">Employee ID:</td>
-                <td className="property-value">{jobDetails?.employeeId}</td>
-              </tr>
-              <tr>
-                <td className="property">Required Skills:</td>
-                <td className="property-value">{jobDetails?.requiredSkills}</td>
-              </tr>
-              <tr>
-                <td className="property">Comments:</td>
-                <td className="property-value">{jobDetails?.comments}</td>
-              </tr>
-              <tr>
-                <td className="property">Hoc Notes:</td>
-                <td className="property-value">{jobDetails?.hocNotes}</td>
-              </tr>
-              <tr>
-                <td className="property">Priority:</td>
-                <td className="property-value">{jobDetails?.priority}</td>
-              </tr>
-              <tr>
-                <td className="property">Status:</td>
-                <td className="property-value">{jobDetails?.status}</td>
-              </tr>
-              <tr>
-                <td className="property">Job ID:</td>
-                <td className="property-value">{jobDetails?.jobId}</td>
-              </tr>
+              {jDetails}
             </tbody>
           </table>
-
-          <div className="action-buttons">
-            <button type="button" onClick={handleUpdate} className="update-button">
-              Update Job
-            </button>
-            <button type="button" onClick={handleDelete} className="delete-button">
-              Delete Job
-            </button>
-          </div>
         </div>
       </form>
     </div>

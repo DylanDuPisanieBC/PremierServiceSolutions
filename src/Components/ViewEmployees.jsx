@@ -1,99 +1,81 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Sidebar from './Sidebar';
-import './CSS/ViewEmployees.css'; // Assuming you have a CSS file for styling
+import './CSS/ViewDetails.css';
 
 const ViewEmployees = ({ sidebarOpen }) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [employeeDetails, setEmployeeDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [employees, setEmployees] = useState([]);
 
-  // Dummy data 
-  const dummyData = [
-    {
-      id: 1,
-      fullName: 'John Doe',
-      phoneNumber: '123-456-7890',
-      branch: 'Main Branch',
-      skills: 'React, JavaScript',
-      type: 'Full-time',
-    }
-  ];
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/v1/employees').then((res) => {
+      // Fetch employee details from server API and store it employees array
+      console.log(res);
+      setEmployees(res.data);
+      setLoading(false);
 
-  const handleSearch = () => {
-    // Search ...  :)
-    setEmployeeDetails(dummyData[0]);
-  };
+    }).catch((err) => {
+      console.log(err);
+    });
+  }, [])
+  
+  if(loading){
+    return(
+      <div>
+        Loading...
+      </div>
+    )
+  }
 
-  const handleUpdate = () => {
-    // Update Emplyee details ...  :)
-    console.log('Updating employee details:', employeeDetails);
-  };
+  var employeeDetails = "";
+  employeeDetails = employees.map( (item) => {
+    // Send selected employee id to next view
+    const handleEditClick = () => {     
+      console.log(item.employee_id);
+      };
 
-  const handleAddEmployee = () => {
-    // Add Employee ...  :)
-    console.log('Adding new employee');
-  };
+    return (
+      // Display the stored array values in the table
+      <tr key={item.employee_id}>
+        <td>{item.employee_id}</td>
+        <td>{item.full_name}</td>
+        <td>{item.branch}</td>
+        <td>{item.phone_number}</td>
+        <td>{item.skills}</td>
+        <td>{item.type}</td>
+        <td>{item.email}</td>
+        <td>
+          <button type="button" onClick={handleEditClick} className="update-button">Edit</button>
+          <button type="button" className="delete-button">Delete</button>
+        </td>
+      </tr>
+    )
+  });
+
 
   return (
-    <div className="view-employees-container">
+    <div className="view-container">
       <Sidebar isOpen={sidebarOpen} toggleSidebar={() => {}} />
-      <h2 className="view-employees-header">View Employee Details</h2>
+      <h2 className="view-header">View Employee Details</h2>
       <form className={sidebarOpen ? 'content-open' : 'content-closed'}>
-        <div className="search-bar">
-          <label htmlFor="searchQuery" className="label-input-group">
-            Search Employee:
-          </label>
-          <input
-            type="text"
-            id="searchQuery"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="input-field"
-          />
-          <button type="button" onClick={handleSearch} className="search-button">
-            Search
-          </button>
-        </div>
-
-        <div className="employee-details">
-          <table className="employee-details-table">
+        <div className="details">
+          <table className="details-table">
             <thead>
               <tr>
-                <th>Employee Details</th>
-                <th></th>
+                <th>Employee ID</th>
+                <th>Full_name</th>
+                <th>Branch</th>
+                <th>Phone Number</th>
+                <th>Skills</th>
+                <th>Type</th>
+                <th>Email</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody className='Table-Body'>
-              <tr>
-                <td className="property">Full Name:</td>
-                <td className="property-value">{employeeDetails?.fullName}</td>
-              </tr>
-              <tr>
-                <td className="property">Phone Number:</td>
-                <td className="property-value">{employeeDetails?.phoneNumber}</td>
-              </tr>
-              <tr>
-                <td className="property">Branch:</td>
-                <td className="property-value">{employeeDetails?.branch}</td>
-              </tr>
-              <tr>
-                <td className="property">Skills:</td>
-                <td className="property-value">{employeeDetails?.skills}</td>
-              </tr>
-              <tr>
-                <td className="property">Type:</td>
-                <td className="property-value">{employeeDetails?.type}</td>
-              </tr>
+              {employeeDetails}
             </tbody>
           </table>
-
-          <div className="button-group">
-            <button type="button" onClick={handleUpdate} className="update-button">
-              Update Details
-            </button>
-            <button type="button" onClick={handleAddEmployee} className="add-employee-button">
-              Add Employee
-            </button>
-          </div>
         </div>
       </form>
     </div>
