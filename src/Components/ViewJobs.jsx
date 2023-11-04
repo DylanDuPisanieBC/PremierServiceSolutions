@@ -20,7 +20,33 @@ const ViewJobs = ({setLoading}) => {
         console.log(err);
       });
     }, 500);
+    
+    }).catch((err) => {
+      console.log(err);
+      alert(`Error: ${err}`);
+    });
   }, [])
+
+  // Delete job
+  const deleteJob = (e, id) => {
+    // prevent the page from refreshing
+    e.preventDefault();
+
+    // Change delete button text to deleting after click
+    const thisClicked = e.currentTarget;
+    thisClicked.innerText = "Deleting...";
+
+    // API delete request
+    axios.delete(`http://localhost:8080/api/v1/job/delete/${id}`)
+        .then(() => {
+          // Delete record and display message
+          alert("Job deleted successfully");
+          thisClicked.closest("tr").remove();
+        }).catch(function (err) {
+          // error catch and message display
+          alert(`Error: ${err}`);
+        })
+  }
   
 
   var jDetails = "";
@@ -43,7 +69,7 @@ const ViewJobs = ({setLoading}) => {
         <td>{item.priority}</td>
         <td>
           <button type="button" onClick={handleEditClick} className="update-button">Edit</button>
-          <button type="button" className="delete-button">Delete</button>
+          <button type="button" onClick={(e) => deleteJob(e, item.job_id)} className="delete-button">Delete</button>
         </td>
       </tr>
     )
