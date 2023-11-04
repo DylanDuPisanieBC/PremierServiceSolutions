@@ -18,6 +18,27 @@ const ViewCalls = ({ sidebarOpen }) => {
       console.log(err);
     });
   }, [])
+
+  // Delete call
+  const deleteCall = (e, id) => {
+    // prevent the page from refreshing
+    e.preventDefault();
+
+    // Change delete button text to deleting after click
+    const thisClicked = e.currentTarget;
+    thisClicked.innerText = "Deleting...";
+
+    // API delete request
+    axios.delete(`http://localhost:8080/api/v1/call/delete/${id}`)
+        .then(() => {
+          // Delete record and display message
+          alert("Call deleted successfully");
+          thisClicked.closest("tr").remove();
+        }).catch(function (err) {
+          // error catch and message display
+          alert(`Error: ${err}`);
+        })
+  }
   
   if(loading){
     return(
@@ -43,7 +64,7 @@ const ViewCalls = ({ sidebarOpen }) => {
         <td>{item.call_end}</td>
         <td>
           <button type="button" onClick={handleEditClick} className="update-button">Edit</button>
-          <button type="button" className="delete-button">Delete</button>
+          <button type="button" onClick={(e) => deleteCall(e, item.call_id)} className="delete-button">Delete</button>
         </td>
       </tr>
     )
