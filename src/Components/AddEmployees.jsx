@@ -3,18 +3,126 @@ import Sidebar from './Sidebar';
 import './CSS/AddJobs.css';
 import axios from 'axios';
 
-const AddEmployees = ({ setView }) => {
+const AddEmployees = ({ setView, showMessage, setMessage, setMessageState }) => {
   const [full_name, setFullName] = useState('');
   const [branch, setBranch] = useState('');
   const [phone_number, setPhoneNumber] = useState('');
   const [skills, setSkills] = useState('');
   const [type, setType] = useState('');
   const [email, setEmail] = useState('');
+  const [Error, setErrorMessage] = useState('');
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
+  const empInfo = new FormData();
+  empInfo.append('full_name', full_name);
+  empInfo.append('branch', branch);
+  empInfo.append('phone_number', phone_number);
+  empInfo.append('skills', skills);
+  empInfo.append('type', type);
+  empInfo.append('email', email);
 
-    // Here, you can handle the form submission and send the job details to your server or perform any other necessary action.
+  const addEmployee = async () => {
+    const response = await axios.post('http://localhost:8080/api/v1/employee/add', empInfo);
+    return response.data;
+  }
+
+  const handleFormSubmit = async () => {
+    if(CheckFullName() === true){
+      if(CheckBranch() === true){
+        if(CheckPhoneNumber() === true){ 
+          if(CheckSkills() === true){
+            if(await CheckEmail() === true){
+              try{
+                const response = await addEmployee()
+                if(response === 1){
+                  setMessage('Employee Added Successfully');
+                  setMessageState('success');
+                  showMessage(true);
+                }else{
+                  setMessage('Error Adding Employee');
+                  setMessageState('error');
+                  showMessage(true);
+                }
+              
+              }catch{
+                setMessage('Cannot Contact Server');
+                setMessageState('danger');
+                showMessage(true);
+              }
+            }
+          }
+        }
+      }
+    }
+  };
+
+  const CheckFullName = () => {
+    if(full_name !== ''){
+      setErrorMessage("");
+      return true;
+    }else{
+      setErrorMessage("Enter a name");
+      return false;
+    }
+  }
+
+  const CheckBranch = () => {
+    if(branch !== ''){
+      setErrorMessage("");
+      return true;
+    }else{
+      setErrorMessage("Enter a branch");
+      return false;
+    }
+  }
+
+  const CheckPhoneNumber = () => {
+    var intCheck = parseInt(phone_number);
+    if(phone_number !== '' && phone_number.length === 10){
+      if(!isNaN(intCheck) && phone_number === '' + intCheck){
+        setErrorMessage("");
+        return true;
+      }else{
+        setErrorMessage("enter a valid phone number");
+      }
+      
+    }else{
+      setErrorMessage("enter a phone number of length 10");
+    }
+  };
+
+  const CheckSkills = () => {
+    if(skills !== ''){
+      setErrorMessage("");
+      return true;
+    }else{
+      setErrorMessage("Enter a skill");
+      return false;
+    }
+  }
+
+  const CheckEmail = async () => {
+    if(email !== ''){
+      try {
+        const response = await axios.post('http://localhost:8080/api/v1/employee/check_email', empInfo);
+    
+        if (response.data === true) {
+          return true;
+        } else if (response.data === false) {
+          setErrorMessage('Email already in use.');
+          return false;
+        }
+    
+        setErrorMessage('Error connecting to server.');
+        return false;
+      } catch (error) {
+        console.error('Error:', error);
+        setErrorMessage('Error connecting to server.');
+        return false;
+      }
+  }else{
+    setErrorMessage('Enter a email address');
+    return false;
+  }
   };
 
   return (
@@ -74,6 +182,11 @@ const AddEmployees = ({ setView }) => {
               onChange={(e) => setEmail(e.target.value)}
               />     
           </div>
+
+          {Error && (
+            <div className='error-message'>{Error}</div>
+          )}
+
           <button className="submit" onClick={handleFormSubmit}>Add Employee</button>
       </div>
     </div>

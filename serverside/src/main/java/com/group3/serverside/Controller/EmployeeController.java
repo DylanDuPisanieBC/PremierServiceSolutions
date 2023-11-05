@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.group3.serverside.Entity.ClientEntity;
 import com.group3.serverside.Entity.EmployeeEntity;
 import com.group3.serverside.Exception.ResourceNotFoundException;
 import com.group3.serverside.Repository.EmployeeRepo;
@@ -42,9 +44,38 @@ public class EmployeeController {
     }
 
     // Add employee
-    @PostMapping("/addEmployee")
-    public EmployeeEntity createEmployee(@RequestBody EmployeeEntity employee) {
-        return employeeRepo.save(employee);
+    @PostMapping("/employee/add")
+    public int createEmployee(@RequestParam String full_name, @RequestParam String branch, @RequestParam String phone_number, @RequestParam String skills, @RequestParam String type, @RequestParam String email) {
+        System.out.println("Api Call Received");
+        EmployeeEntity newEmployee = new EmployeeEntity();
+
+        newEmployee.setFull_name(full_name);
+        newEmployee.setBranch(branch);
+        newEmployee.setPhone_number(phone_number);
+        newEmployee.setSkills(skills);
+        newEmployee.setType(type);
+        newEmployee.setEmail(email);
+
+
+        try{
+            System.out.println("Try To Save Employee");
+            employeeRepo.save(newEmployee);
+            return 1;
+        }catch(Exception e){
+            System.out.println("Could not save Employee");
+            System.out.println(e.getMessage());
+            return 0;
+        }
+
+    }
+
+    @PostMapping("/employee/check_email")
+    public boolean CheckEmail(@RequestParam String email) {
+        
+        EmployeeEntity dupe = employeeRepo.findByEmail(email);
+
+        if(dupe == null){return true;}else{ return false;}
+
     }
 
     // Update employee
