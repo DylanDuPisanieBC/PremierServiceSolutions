@@ -37,6 +37,7 @@ const AddEmployees = ({ setView, showMessage, setMessage, setMessageState }) => 
                   setMessage('Employee Added Successfully');
                   setMessageState('success');
                   showMessage(true);
+                  setView('employees');
                 }else{
                   setMessage('Error Adding Employee');
                   setMessageState('error');

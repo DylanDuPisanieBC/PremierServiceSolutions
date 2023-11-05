@@ -41,6 +41,7 @@ const AddJobs = ({setView, showMessage, setMessage, setMessageState, id}) => {
                 setMessage('Job Created Successfully');
                 setMessageState('success');
                 showMessage(true);
+                setView('jobs');
               }else{
                 setMessage('Error CreatingJob Created');
                 setMessageState('danger');

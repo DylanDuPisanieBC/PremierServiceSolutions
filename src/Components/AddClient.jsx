@@ -134,6 +134,7 @@ const AddClient = ({setView, showMessage, setMessage, setMessageState, id}) => {
                 setMessage('Client Edited Successfully');
                 setMessageState('success');
                 showMessage(true);
+                setView('client');
               }else{
                 setMessage('Error Editing Client');
                 setMessageState('error');
