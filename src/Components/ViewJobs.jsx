@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './CSS/ViewDetails.css'; 
 
-const ViewJobs = ({setLoading}) => {
+const ViewJobs = ({setLoading, setView}) => {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
@@ -98,6 +98,7 @@ const ViewJobs = ({setLoading}) => {
           </table>
         </div>
       </form>
+      <button className='add-button' onClick={() => setView('AddJobs')} >Add Jobs</button>
     </div>
   );
 };

@@ -10,6 +10,7 @@ import ViewEmployees from './Components/ViewEmployees.jsx';
 import ViewJobs from './Components/ViewJobs.jsx';
 import ViewCalls from './Components/ViewCalls.jsx';
 import ViewContracts from './Components/ViewContracts.jsx';
+import AddJobs from './Components/AddJobs.jsx';
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
         <Route path="/register" component={Register} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/add_client" component={AddClient} />
-        <Route path="/add_job" component={AddJob} />
+        <Route path="/add_jobs" component={AddJobs} />
         <Route path="/view_client_details" component={ViewClientDetails} />
         <Route path="/View_Employees" component={ViewEmployees} /> 
         <Route path="/View_Jobs" component={ViewJobs} /> 

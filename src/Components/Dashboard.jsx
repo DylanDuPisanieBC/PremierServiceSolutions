@@ -10,6 +10,8 @@ import EmployeesComponent from './ViewEmployees';
 import JobCardsComponent from './ViewJobs';
 import LoadingComponent from './ViewLoading';
 import MessageBoxComponent from './MessageBox'
+import AddJobs from './AddJobs';
+import AddEmployees from './AddEmployees';
 
 
 const Dashboard = () => {
@@ -35,9 +37,11 @@ const Dashboard = () => {
 
         {view === 'contracts' && <ContractsComponent setLoading={setLoadingView}/>}
 
-        {view === 'employees' && <EmployeesComponent setLoading={setLoadingView}/>}
+        {view === 'employees' && <EmployeesComponent setLoading={setLoadingView} setView={setView}/>}
+        {view === 'AddEmployee' && <AddEmployees setLoading={setLoadingView} setView={setView} showMessage={setMessageBox} setMessage={setMessageBoxMessage} setMessageState={setMessageBoxState}/>}
 
-        {view === 'jobs' && <JobCardsComponent setLoading={setLoadingView}/>}
+        {view === 'jobs' && <JobCardsComponent setLoading={setLoadingView} setView={setView}/>}
+        {view === 'AddJobs' && <AddJobs setLoading={setLoadingView} setView={setView} showMessage={setMessageBox} setMessage={setMessageBoxMessage} setMessageState={setMessageBoxState}/>}
 
         {view === 'main' &&  <DashboardComponent setLoading={setLoadingView}/>}
       </div>
