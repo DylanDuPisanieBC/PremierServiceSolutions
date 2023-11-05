@@ -1,12 +1,25 @@
-.view-container {
-  margin: 0;
+.view-container-open {
+  margin: 0px;
   font-family: Arial, sans-serif;
+  height: 100vh;
+  margin-left: 200px;
   background-image: url('/src/Components/Images/top-view-desk-assortment-with-copy-space.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
+  transition: all 0.2s ease-out;
+}
+
+.view-container-closed {
+  margin: 0px;
+  font-family: Arial, sans-serif;
   height: 100vh;
-  margin-left: 200px;
+  margin-left: 50px;
+  background-image: url('/src/Components/Images/top-view-desk-assortment-with-copy-space.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  transition: all 0.2s ease-out;
 }
 
 .view-header {
@@ -60,6 +73,27 @@
   background-color: #e0e0e0;
 }
 
+.add-button {
+  margin: 20px 40px;
+  padding: 10px 15px;
+  cursor: pointer;
+  background-color: rgb(26, 250, 239);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+  padding: 10px 15px;
+  cursor: pointer;
+  background-color: #3580f1;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
 .update-button {
   padding: 10px 15px;
   cursor: pointer;
@@ -89,3 +123,5 @@
 .delete-button:hover {
   background-color: #c62828;
 }
+
+

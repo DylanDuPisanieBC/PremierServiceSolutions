@@ -12,15 +12,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.group3.serverside.Entity.ClientEntity;
 import com.group3.serverside.Exception.ResourceNotFoundException;
 import com.group3.serverside.Repository.ClientRepo;
 
-@CrossOrigin(origins = "http://localhost:5173")
+
 @RestController
 @RequestMapping("/api/v1/")
+@CrossOrigin(origins = "http://localhost:5173")
 public class ClientController {
     
     @Autowired
@@ -42,9 +44,43 @@ public class ClientController {
     }
 
     // Add client
-    @PostMapping("/addClient")
-    public ClientEntity createClient(@RequestBody ClientEntity client) {
-        return clientRepo.save(client);
+    @PostMapping("/client/add")
+    public int createClient(@RequestParam boolean clientType, @RequestParam String name, @RequestParam String surname, @RequestParam String businessName, @RequestParam String contactNumber, @RequestParam String address, @RequestParam int contract_id, @RequestParam String email) {
+        System.out.println("Api Call Received");
+        ClientEntity newClient = new ClientEntity();
+
+        System.out.println("Client Type: " + clientType);
+        System.out.println("Client Name: " + name);
+        System.out.println("Client Surname: " + surname);
+        if(clientType){ System.out.println("Client Is Individual"); newClient.setAlias(name + " " + surname); newClient.setClient_type("Individual");}
+        else{ System.out.println("Client Is Business"); newClient.setAlias(businessName); newClient.setClient_type("Business");}
+
+        System.out.println("Client Alias: " + newClient.getAlias());
+
+        newClient.setContact_number(contactNumber);
+        newClient.setAddress(address);
+        newClient.setContract_id(contract_id);
+        newClient.setEmail(email);
+
+        try{
+            System.out.println("Try To Save Client");
+            clientRepo.save(newClient);
+            return 1;
+        }catch(Exception e){
+            System.out.println("Could not save Client");
+            System.out.println(e.getMessage());
+            return 0;
+        }
+
+    }
+
+    @PostMapping("/client/check_email")
+    public boolean CheckEmail(@RequestParam String email) {
+        
+        ClientEntity dupe = clientRepo.findByEmail(email);
+
+        if(dupe == null){return true;}else{ return false;}
+
     }
 
     // Update client
