@@ -4,7 +4,10 @@ import './CSS/AddClient.css';
 import { useEffect } from 'react';
 import axios from 'axios';
 
-const AddClient = ({setView, showMessage, setMessage, setMessageState}) => {
+const AddClient = ({setView, showMessage, setMessage, setMessageState, id}) => {
+
+  const [editing, setEditing] = useState(false);
+  const [clientID, setClientID] = useState(0);
   const [isIndividual, setIsIndividual] = useState(true);
   const [clientType, setClientType] = useState('individual');
   const [name, setName] = useState('');
@@ -14,7 +17,10 @@ const AddClient = ({setView, showMessage, setMessage, setMessageState}) => {
   const [address, setAddress] = useState('');
   const [email, setEmail] = useState('');
   const [selectedContract, setSelectedContract] = useState(null);
+  const [contractID, setSelectedContractID] = useState(1);
+  const [contracts, setContracts] = useState([]);
   const [Error, setErrorMessage] = useState('');
+  const [client, setClient] = useState();
 
   const clientInfo = new FormData();
   clientInfo.append('clientType', isIndividual);
@@ -24,13 +30,74 @@ const AddClient = ({setView, showMessage, setMessage, setMessageState}) => {
   clientInfo.append('contactNumber', contactNumber);
   clientInfo.append('address', address);
   clientInfo.append('email', email);
-  clientInfo.append('contract_id', 1);
-  
+  clientInfo.append('contract_id', contractID);
 
-  const [contracts, setContracts] = useState([]);
+  useEffect(() => {
+    if (id !== undefined) {
+      setClientID(id);
+      setEditing(true);
+    } else {
+      setClientID(undefined);
+      setEditing(false);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (editing) {
+      getClientInfo();      
+    }
+
+  }, [editing]);
+
+  useEffect(() => {
+    if (client !== undefined) {
+      if(contracts !== undefined) {
+        populateInputs();
+      }else{
+        console.log("contracts not received yet");
+      }           
+    }else{
+      console.log("client object not received yet");
+    }
+  }, [client], [contracts]);
+
+  // Define getClientInfo before using it
+  const getClientInfo = async () => {
+    const response = await axios.get("http://localhost:8080/api/v1/client/" + clientID);
+    setClient(response.data);
+    console.log(response.data);
+  };
+
+  const populateInputs = () => {
+
+    if(client.client_type === "Individual"){
+      handleClientTypeChangeManual('individual');
+      const nameArray = client.alias.split(' ');
+      const length = nameArray.length;
+      const tempName = nameArray[0];
+      const tempSurname = nameArray[length-1];
+      setName(tempName);
+      setSurname(tempSurname);
+    }else{
+      handleClientTypeChangeManual('business');
+      setBusinessName(client.alias);
+    }
+   setAddress(client.address);
+   setContactNumber(client.contact_number);
+   setEmail(client.email);
+
+    const contract = contracts.find((contract) => contract.contract_id === client.contract_id);
+    console.log(contract.contract_id);
+    setSelectedContract(contract);
+  }
 
   const handleClientTypeChange = (event) => {
     const type = event.target.value;
+    setClientType(type);
+    setIsIndividual(type === 'individual');
+  };
+
+  const handleClientTypeChangeManual = (type) => {
     setClientType(type);
     setIsIndividual(type === 'individual');
   };
@@ -40,17 +107,35 @@ const AddClient = ({setView, showMessage, setMessage, setMessageState}) => {
     if(CheckAlias() === true){
       if(CheckContactNumber() === true){
         if(CheckAddress() === true){ 
-
-          if(await CheckEmail() === true){
-            
+          if(!editing){
+            if(await CheckEmail() === true){              
+              try{
+                const response = await addClient()
+                if(response === 1){
+                  setMessage('Client Added Successfully');
+                  setMessageState('success');
+                  showMessage(true);
+                }else{
+                  setMessage('Error Adding Client');
+                  setMessageState('error');
+                  showMessage(true);
+                }
+                
+              }catch{
+                setMessage('Cannot Contact Server');
+                setMessageState('danger');
+                showMessage(true);
+              }
+            }
+          }else{
             try{
-              const response = await addClient()
+              const response = await editClient()
               if(response === 1){
-                setMessage('Client Added Successfully');
+                setMessage('Client Edited Successfully');
                 setMessageState('success');
                 showMessage(true);
               }else{
-                setMessage('Error Adding Client');
+                setMessage('Error Editing Client');
                 setMessageState('error');
                 showMessage(true);
               }
@@ -60,7 +145,6 @@ const AddClient = ({setView, showMessage, setMessage, setMessageState}) => {
               setMessageState('danger');
               showMessage(true);
             }
-
           }
           
         }
@@ -71,6 +155,14 @@ const AddClient = ({setView, showMessage, setMessage, setMessageState}) => {
   const addClient = async () => {
 
     const response = await axios.post('http://localhost:8080/api/v1/client/add', clientInfo);
+
+    return response.data;
+
+  }
+
+  const editClient = async () => {
+
+    const response = await axios.put('http://localhost:8080/api/v1/client/update/' + clientID, clientInfo);
 
     return response.data;
 
@@ -265,11 +357,12 @@ const AddClient = ({setView, showMessage, setMessage, setMessageState}) => {
             <label htmlFor="contract">Contract:</label>
             <select
               id="contract"
+              value={selectedContract ? selectedContract.contract_id : ''}
               onChange={(e) => {
                 const selectedContractId = parseInt(e.target.value, 10);
-                const contractObject = contracts.find((contract) => contract.contract_id === selectedContractId);                
+                const contractObject = contracts.find((contract) => contract.contract_id === selectedContractId);              
                 setSelectedContract(contractObject);
-                clientInfo.set('contract_id', contractObject.contract_id);
+                setSelectedContractID(contractObject.contract_id);
               }}
               >
                 {contractDetails}
@@ -280,7 +373,7 @@ const AddClient = ({setView, showMessage, setMessage, setMessageState}) => {
 
             <div className="side-to-side">
               <label htmlFor="hours">Maintenance Hours:</label>
-              <span id="hours">{selectedContract ? selectedContract.hours_allocated : ''} per month</span>
+              <span id="hours">{selectedContract ? selectedContract.hours_allocated : ''} hours per month</span>
             </div>
 
             <div className="side-to-side">
@@ -290,7 +383,7 @@ const AddClient = ({setView, showMessage, setMessage, setMessageState}) => {
             
             <div className="side-to-side">
               <label htmlFor="overtimerate">Overtime Charge Rate:</label>
-              <span id="overtimerate">{selectedContract ? selectedContract.overtime_rate : ''} per hour overtime</span>
+              <span id="overtimerate">R{selectedContract ? selectedContract.overtime_rate : ''} per hour overtime</span>
             </div>
              
           </div>
@@ -299,7 +392,13 @@ const AddClient = ({setView, showMessage, setMessage, setMessageState}) => {
             <div className='error-message'>{Error}</div>
           )}
 
-          <button className="submit" onClick={handleFormSubmit}>Add Client</button>
+          {editing && (
+            <button className="update-button" onClick={handleFormSubmit}>Edit Client</button>
+          )}
+          {!editing && (
+            <button className="submit" onClick={handleFormSubmit}>Add Client</button>
+          )}
+          
       </div>
     </div>
   );

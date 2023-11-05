@@ -46,28 +46,26 @@ public class ClientController {
     // Add client
     @PostMapping("/client/add")
     public int createClient(@RequestParam boolean clientType, @RequestParam String name, @RequestParam String surname, @RequestParam String businessName, @RequestParam String contactNumber, @RequestParam String address, @RequestParam int contract_id, @RequestParam String email) {
-        System.out.println("Api Call Received");
         ClientEntity newClient = new ClientEntity();
-
-        System.out.println("Client Type: " + clientType);
-        System.out.println("Client Name: " + name);
-        System.out.println("Client Surname: " + surname);
-        if(clientType){ System.out.println("Client Is Individual"); newClient.setAlias(name + " " + surname); newClient.setClient_type("Individual");}
-        else{ System.out.println("Client Is Business"); newClient.setAlias(businessName); newClient.setClient_type("Business");}
-
-        System.out.println("Client Alias: " + newClient.getAlias());
+        if(clientType){ newClient.setAlias(name + " " + surname); newClient.setClient_type("Individual");}
+        else{ newClient.setAlias(businessName); newClient.setClient_type("Business");}
 
         newClient.setContact_number(contactNumber);
         newClient.setAddress(address);
         newClient.setContract_id(contract_id);
         newClient.setEmail(email);
 
+        System.out.println("Type: " + newClient.getClient_type());
+        System.out.println("Alias: " + newClient.getAlias());
+        System.out.println("Contact Number: " + newClient.getContact_number());
+        System.out.println("Address: " + newClient.getAddress());
+        System.out.println("Email: " + newClient.getEmail());
+        System.out.println("Contract ID: " + newClient.getContract_id());
+
         try{
-            System.out.println("Try To Save Client");
             clientRepo.save(newClient);
             return 1;
         }catch(Exception e){
-            System.out.println("Could not save Client");
             System.out.println(e.getMessage());
             return 0;
         }
@@ -85,19 +83,27 @@ public class ClientController {
 
     // Update client
     @PutMapping("/client/update/{id}")
-    public ResponseEntity<ClientEntity> updateClient(@PathVariable Integer id, @RequestBody ClientEntity clientDetails) {
+    public int updateClient(@PathVariable Integer id, @RequestParam boolean clientType, @RequestParam String name, @RequestParam String surname, @RequestParam String businessName, @RequestParam String contactNumber, @RequestParam String address, @RequestParam int contract_id, @RequestParam String email) {
+        try{
         ClientEntity client = clientRepo.findById(id)
                         .orElseThrow(() -> new ResourceNotFoundException("Client does not exist with id: " + id));
 
-        client.setAlias(clientDetails.getAlias());
-        client.setContract_id(clientDetails.getContract_id());
-        client.setContact_number(clientDetails.getContact_number());
-        client.setClient_type(clientDetails.getClient_type());
-        client.setAddress(clientDetails.getAddress());
-        client.setEmail(clientDetails.getAddress());
+        if(clientType){ client.setAlias(name + " " + surname); client.setClient_type("Individual");}
+        else{ client.setAlias(businessName); client.setClient_type("Business");}
 
-        ClientEntity updatedClient = clientRepo.save(client);
-        return ResponseEntity.ok(updatedClient);
+        client.setContract_id(contract_id);
+        System.out.println(contract_id);
+        client.setContact_number(contactNumber);
+        client.setAddress(address);
+        client.setEmail(email);
+
+        clientRepo.save(client);
+        return 1;
+
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return 0;
+        }
     }
 
     // Delete client

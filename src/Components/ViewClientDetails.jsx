@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './CSS/ViewDetails.css'; 
 
-const ViewClientDetails = ({setLoading, setView}) => {
+const ViewClientDetails = ({setLoading, setView, setID}) => {
   const [clients, setClients] = useState([]);
 
   useEffect(() => {
@@ -46,8 +46,9 @@ const ViewClientDetails = ({setLoading, setView}) => {
   var clientDetails = "";
   clientDetails = clients.map( (item) => {
     // Send selected client id to next view
-    const handleEditClick = () => {     
-      console.log(item.client_id);
+    const handleEditClick = () => { 
+      setID(item.client_id);
+      setView("AddClient");    
       };
 
     return (
@@ -92,7 +93,7 @@ const ViewClientDetails = ({setLoading, setView}) => {
           </table>
         </div>
       </form>
-      <button className='add-button' onClick={() => setView('AddClient')} >Add Client</button>
+      <button className='add-button' onClick={() => {setView('AddClient'); setID(undefined);}} >Add Client</button>
     </div>
   );
 };

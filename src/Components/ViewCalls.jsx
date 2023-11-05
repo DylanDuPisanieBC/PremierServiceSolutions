@@ -58,7 +58,6 @@ const ViewCalls = ({setLoading}) => {
         <td>{item.call_start}</td>
         <td>{item.call_end}</td>
         <td>
-          <button type="button" onClick={handleEditClick} className="update-button">Edit</button>
           <button type="button" onClick={(e) => deleteCall(e, item.call_id)} className="delete-button">Delete</button>
         </td>
       </tr>

@@ -8,6 +8,7 @@ import AddClient from './AddClient';
 import ContractsComponent from './ViewContracts';
 import EmployeesComponent from './ViewEmployees';
 import JobCardsComponent from './ViewJobs';
+import AddJob from './AddJobs'
 import LoadingComponent from './ViewLoading';
 import MessageBoxComponent from './MessageBox'
 import AddJobs from './AddJobs';
@@ -23,6 +24,8 @@ const Dashboard = () => {
   const [messageBoxMessage, setMessageBoxMessage] = useState('Enter the message box message you want to display');
   const [messageBoxState, setMessageBoxState] = useState('Success');
 
+  const[pathID, setPathID] = useState(null);
+
   return (
     <div className='Main'>
       <Sidebar setView={setView} setSidebar={setSidebar}/>
@@ -32,8 +35,8 @@ const Dashboard = () => {
         
         {view === 'calls' && <CallsComponent setLoading={setLoadingView}/>}
        
-        {view === 'clients' && <ClientsComponent setLoading={setLoadingView} setView={setView}/>}
-        {view === 'AddClient' && <AddClient setLoading={setLoadingView} setView={setView} showMessage={setMessageBox} setMessage={setMessageBoxMessage} setMessageState={setMessageBoxState}/>}
+        {view === 'clients' && <ClientsComponent setLoading={setLoadingView} setView={setView} setID={setPathID}/>}
+        {view === 'AddClient' && <AddClient setLoading={setLoadingView} setView={setView} showMessage={setMessageBox} setMessage={setMessageBoxMessage} setMessageState={setMessageBoxState} id={pathID}/>}
 
         {view === 'contracts' && <ContractsComponent setLoading={setLoadingView}/>}
 
