@@ -12,11 +12,51 @@ const AddJobs = ({ setView }) => {
   const [hoc_notes, setHocNotes] = useState('');
   const [commnets, setComments] = useState('');
 
+  const [calls, setCalls] = useState([]);
+  const [employees, setEmployees] = useState([]);
+
   const handleFormSubmit = (event) => {
     event.preventDefault();
 
     // Here, you can handle the form submission and send the job details to your server or perform any other necessary action.
   };
+
+  const getCalls = async () => {
+    axios.get('http://localhost:8080/api/v1/calls').then((res) => {
+        console.log(res);
+        setCalls(res.data);  
+      }).catch((err) => {
+        console.log(err);
+      });
+  }
+
+  const getEmployees = async () => {
+    axios.get('http://localhost:8080/api/v1/employees').then((res) => {
+        console.log(res);
+        setEmployees(res.data);     
+      }).catch((err) => {
+        console.log(err);
+      });
+  }
+
+  useEffect(() => {
+    getCalls();
+    getEmployees();
+  }, []);
+
+  var callDetails = "";
+  callDetails = calls.map( (item) => {
+    return (
+      <option key={item.call_id} value={item.call_id}>Call ID: {item.call_id} - Client ID: {item.client_id}</option>
+    )
+});
+
+var employeeDetails = "";
+employeeDetails = employees.map( (item) => {
+  return (
+    <option key={item.employee_id} value={item.employee_id}>{item.full_name} - {item.skills}</option>
+  )
+});
 
   return (
     <div>
@@ -36,28 +76,38 @@ const AddJobs = ({ setView }) => {
             </select>                      
           </div>
           <div className="form-group">
-            <label htmlFor="emplopyee_id">Employee ID:</label>
-            <input 
-              id='emplopyee_id'
+            <label htmlFor="emplopyee_id">Employee:</label>
+            <select 
+              id='emplopyee_id' 
               value={employee_id}
-              onChange={(e) => setEmployeeID(e.target.value)}
-              />     
+              onChange={(e) => setEmployeeID(e.target.value)
+              }>
+              <option value="">---Select Employee---</option>
+              {employeeDetails}
+            </select>    
           </div>
           <div className="form-group">
-            <label htmlFor="call_id">Call ID:</label>
-            <input 
-              id='call_id'
+            <label htmlFor="call_id">Call:</label>
+            <select 
+              id='call_id' 
               value={call_id}
-              onChange={(e) => setCallID(e.target.value)}
-              />     
+              onChange={(e) => setCallID(e.target.value)
+              }>
+              <option value="">---Select Call---</option>
+              {callDetails}
+            </select>    
           </div>
           <div className="form-group">
             <label htmlFor="priority">Priority:</label>
-            <input 
-              id='priority'
-              value={priority}
-              onChange={(e) => setPriority(e.target.value)}
-              />     
+            <select 
+              id='status' 
+              value={status}
+              onChange={(e) => setStatus(e.target.value)
+              }>
+              <option value="L">Low</option>
+              <option value="N">Normal</option>
+              <option value="H">High</option>
+            </select>    
           </div>
           <div className="form-group">
             <label htmlFor="skills">Required Skills:</label>
@@ -67,10 +117,10 @@ const AddJobs = ({ setView }) => {
               onChange={(e) => setRequiredSkills(e.target.value)
               }>
               <option value="Technical Skills 1">Technical Skills 1</option>
-              <option value="Technical Skills 1">Technical Skills 2</option>
-              <option value="Technical Skills 1">Technical Skills 3</option>
-              <option value="Technical Skills 1">Technical Skills 4</option>
-              <option value="Technical Skills 1">Technical Skills 5</option>
+              <option value="Technical Skills 2">Technical Skills 2</option>
+              <option value="Technical Skills 3">Technical Skills 3</option>
+              <option value="Technical Skills 4">Technical Skills 4</option>
+              <option value="Technical Skills 5">Technical Skills 5</option>
             </select>                      
           </div>
           <div className="form-group">

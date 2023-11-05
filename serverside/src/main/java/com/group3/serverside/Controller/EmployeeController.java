@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.group3.serverside.Entity.ClientEntity;
 import com.group3.serverside.Entity.EmployeeEntity;
 import com.group3.serverside.Exception.ResourceNotFoundException;
 import com.group3.serverside.Repository.EmployeeRepo;
