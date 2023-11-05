@@ -4,7 +4,7 @@ import './CSS/AddClient.css';
 import { useEffect } from 'react';
 import axios from 'axios';
 
-const AddClient = ({setView}) => {
+const AddClient = ({setView, showMessage, setMessage, setMessageState}) => {
   const [isIndividual, setIsIndividual] = useState(true);
   const [clientType, setClientType] = useState('individual');
   const [name, setName] = useState('');
@@ -12,16 +12,19 @@ const AddClient = ({setView}) => {
   const [businessName, setBusinessName] = useState('');
   const [contactNumber, setContactNumber] = useState('');
   const [address, setAddress] = useState('');
+  const [email, setEmail] = useState('');
   const [selectedContract, setSelectedContract] = useState(null);
   const [Error, setErrorMessage] = useState('');
 
   const clientInfo = new FormData();
-  clientInfo.append('type', clientType);
+  clientInfo.append('clientType', isIndividual);
   clientInfo.append('name', name);
   clientInfo.append('surname', surname);
-  clientInfo.append('businessName', surname);
-  clientInfo.append('contactNumber', surname);
+  clientInfo.append('businessName', businessName);
+  clientInfo.append('contactNumber', contactNumber);
   clientInfo.append('address', address);
+  clientInfo.append('email', email);
+  clientInfo.append('contract_id', 1);
   
 
   const [contracts, setContracts] = useState([]);
@@ -33,12 +36,45 @@ const AddClient = ({setView}) => {
   };
 
   const handleFormSubmit = async () => {
+    clientInfo.append('contract_id', contract.contract_id);
+    if(CheckAlias() === true){
+      if(CheckContactNumber() === true){
+        if(CheckAddress() === true){ 
 
-    if(CheckAlias() === false){ return;}
-    if(CheckContactNumber() === false){ return;}
-    if(CheckAddress() === false){ return;}
+          if(await CheckEmail() === true){
+            
+            try{
+              const response = await addClient()
+              if(response === 1){
+                setMessage('Client Added Successfully');
+                setMessageState('success');
+                showMessage(true);
+              }else{
+                setMessage('Error Adding Client');
+                setMessageState('error');
+                showMessage(true);
+              }
+              
+            }catch{
+              setMessage('Cannot Contact Server');
+              setMessageState('danger');
+              showMessage(true);
+            }
 
+          }
+          
+        }
+      }
+    }
   };
+
+  const addClient = async () => {
+
+    const response = await axios.post('http://localhost:8080/api/v1/client/add', clientInfo);
+
+    return response.data;
+
+  }
 
   const CheckAlias = () => {
 
@@ -60,7 +96,7 @@ const AddClient = ({setView}) => {
       setErrorMessage("enter businness name");
     }
 
-  }
+  };
 
   const CheckContactNumber = () => {
 
@@ -77,18 +113,45 @@ const AddClient = ({setView}) => {
     }else{
       setErrorMessage("enter a contact number of length 10");
     }
+  };
+
+  const CheckEmail = async () => {
+
+    if(email !== ''){
+      try {
+        const response = await axios.post('http://localhost:8080/api/v1/client/check_email', clientInfo);
+    
+        if (response.data === true) {
+          return true;
+        } else if (response.data === false) {
+          setErrorMessage('Email already in use.');
+          return false;
+        }
+    
+        setErrorMessage('Error connecting to server.');
+        return false;
+      } catch (error) {
+        console.error('Error:', error);
+        setErrorMessage('Error connecting to server.');
+        return false;
+      }
+  }else{
+    setErrorMessage('Enter a email address');
+    return false;
   }
 
-  const CheckAddress = () => {
+  };
 
+  const CheckAddress = () => {
     if(address !== ''){
       setErrorMessage("");
       return true;
+    }else{
+      setErrorMessage("Enter a address");
+      return false;
     }
-
-    setErrorMessage("enter an address");
-
   }
+
 
   useEffect(() => {
       axios.get('http://localhost:8080/api/v1/contracts').then((res) => {
@@ -110,7 +173,7 @@ const AddClient = ({setView}) => {
 
   return (
     <div>
-      <span className='icon' onClick={()=> setView('clients')}>➜</span>
+      <span className='icon' onClick={() => setView('clients')}>➜</span>
       <div className="add-client-container">
         <h2 className="add-client-header">Add Client</h2>
           <div>
@@ -170,6 +233,16 @@ const AddClient = ({setView}) => {
           )}
 
           <div className="form-group">
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+
+          <div className="form-group">
             <label htmlFor="contactNumber">Contact Number:</label>
             <input
               type="text"
@@ -194,9 +267,9 @@ const AddClient = ({setView}) => {
               id="contract"
               onChange={(e) => {
                 const selectedContractId = parseInt(e.target.value, 10);
-                const contractObject = contracts.find((contract) => contract.contract_id === selectedContractId);
+                const contractObject = contracts.find((contract) => contract.contract_id === selectedContractId);                
                 setSelectedContract(contractObject);
-                console.log(contractObject);
+                clientInfo.set('contract_id', contractObject.contract_id);
               }}
               >
                 {contractDetails}

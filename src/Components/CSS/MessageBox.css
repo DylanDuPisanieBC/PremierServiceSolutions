@@ -1,0 +1,104 @@
+
+.circle-green {
+  position: relative;
+  background: greenyellow;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.circle-red {
+  position: relative;
+  background: red;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.circle-orange {
+  position: relative;
+  background: orange;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.checkmark {
+  position: absolute;
+  transform: rotate(45deg) translate(-50%, -50%);
+  left: 33%;
+  top: 45%;
+  height: 30px;
+  width: 10px;
+  border-bottom: 5px solid white;
+  border-right: 5px solid white;
+}
+
+.cross {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  height: 50px;
+  width: 50px;
+}
+
+.cross::before, .cross::after {
+  content: '';
+  position: absolute;
+  height: 5px;
+  width: 100%;
+  top: 50%;
+  left: 0;
+  background: white;
+  transform-origin: 50%;
+}
+
+.cross::before {
+  transform: translate(0, -50%) rotate(45deg);
+}
+
+.cross::after {
+  transform: translate(0, -50%) rotate(-45deg);
+}
+
+.exclamation {
+  font-size: 60px;
+  font-weight: 600;
+  color: white;
+  position: absolute;
+  left: 38%;
+  top: 2%;
+  font-family: 'Inter';
+}
+
+.box{
+  position: absolute;
+  left: 40%;
+  top: 40%;
+  width: 400px;
+  height: 250px;
+  border-radius: 10px;
+  box-shadow:0 0 20px rgba(0, 0, 0, 0.178);
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter';
+  z-index: 1;
+}
+
+.box span{
+  padding: 0px 20px 0px 20px;
+  text-align: center;
+}
+
+
+
