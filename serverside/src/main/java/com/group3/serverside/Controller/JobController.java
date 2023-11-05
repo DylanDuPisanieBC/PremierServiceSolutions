@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.group3.serverside.Entity.JobEntity;
@@ -43,8 +44,24 @@ public class JobController {
 
     // Add job
     @PostMapping("/addJob")
-    public JobEntity createJob(@RequestBody JobEntity job) {
-        return jobRepo.save(job);
+    public int createJob(@RequestParam String status, @RequestParam int employee_id, @RequestParam int call_id, @RequestParam String priority, @RequestParam String hoc_notes, @RequestParam String comments, @RequestParam String required_skills) {
+        
+        try{
+            JobEntity job = new JobEntity();
+            job.setStatus(status);
+            job.setEmployee_id(employee_id);
+            job.setCall_id(call_id);
+            job.setPriority(priority);
+            job.setRequired_skills(required_skills);
+            job.setHoc_notes(hoc_notes);
+            job.setComments(comments);
+            jobRepo.save(job);   
+            return 1; 
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        return 0;
     }
 
     // Update job
