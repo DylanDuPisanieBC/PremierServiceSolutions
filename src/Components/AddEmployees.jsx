@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from './Sidebar';
 import './CSS/AddJobs.css';
 import axios from 'axios';
 
@@ -204,7 +203,13 @@ const AddEmployees = ({ setView, showMessage, setMessage, setMessageState, id })
     <div>
       <span className='icon' onClick={() => setView('employees')}>➜</span>
       <div className="add-client-container">
-        <h2 className="add-client-header">Add Employee</h2>
+        {editing && (
+          <h2 className="add-client-header">Edit Employee</h2>
+        )}
+        {!editing && (
+          <h2 className="add-client-header">Add Employee</h2>
+        )}
+
           <div className="form-group">
             <label htmlFor="full_name">Full Name:</label>
             <input 

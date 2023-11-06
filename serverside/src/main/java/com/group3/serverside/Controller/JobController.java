@@ -66,20 +66,25 @@ public class JobController {
 
     // Update job
     @PutMapping("/job/update/{id}")
-    public ResponseEntity<JobEntity> updateJob(@PathVariable Integer id, @RequestBody JobEntity jobDetails) {
-        JobEntity job = jobRepo.findById(id)
+    public int updateJob(@PathVariable Integer id, @RequestParam String status, @RequestParam int employee_id, @RequestParam int call_id, @RequestParam String priority, @RequestParam String hoc_notes, @RequestParam String comments, @RequestParam String required_skills) {
+        try {
+             JobEntity job = jobRepo.findById(id)
                     .orElseThrow(() -> new ResourceNotFoundException("Job does not exist with id: " + id));
 
-        job.setStatus(jobDetails.getStatus());
-        job.setHoc_notes(jobDetails.getHoc_notes());
-        job.setEmployee_id(jobDetails.getEmployee_id());
-        job.setCall_id(jobDetails.getCall_id());
-        job.setRequired_skills(jobDetails.getRequired_skills());
-        job.setComments(jobDetails.getComments());       
-        job.setPriority(jobDetails.getPriority());
-
-        JobEntity updatedJob = jobRepo.save(job);
-        return ResponseEntity.ok(updatedJob);
+            job.setStatus(status);
+            job.setHoc_notes(hoc_notes);
+            job.setEmployee_id(employee_id);
+            job.setCall_id(call_id);
+            job.setRequired_skills(required_skills);
+            job.setComments(comments);       
+            job.setPriority(priority);
+        
+            jobRepo.save(job);
+            return 1;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return 0;
+        }
     }
 
     // Delete job

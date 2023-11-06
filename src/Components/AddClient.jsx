@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Sidebar from './Sidebar';
 import './CSS/AddClient.css';
 import { useEffect } from 'react';
 import axios from 'axios';
@@ -267,7 +266,13 @@ const AddClient = ({setView, showMessage, setMessage, setMessageState, id}) => {
     <div>
       <span className='icon' onClick={() => setView('clients')}>➜</span>
       <div className="add-client-container">
-        <h2 className="add-client-header">Add Client</h2>
+        {editing && (
+          <h2 className="add-client-header">Edit Client</h2>
+        )}
+        {!editing && (
+          <h2 className="add-client-header">Add Client</h2>
+        )}
+        
           <div>
               <div className="form-group">
                   <label>Client type:</label>
