@@ -79,19 +79,24 @@ public class EmployeeController {
 
     // Update employee
     @PutMapping("/employee/update/{id}")
-    public ResponseEntity<EmployeeEntity> updateEmployee(@PathVariable Integer id, @RequestBody EmployeeEntity employeeDetails) {
-        EmployeeEntity employee = employeeRepo.findById(id)
+    public int updateEmployee(@PathVariable Integer id, @RequestParam String full_name, @RequestParam String branch, @RequestParam String phone_number, @RequestParam String skills, @RequestParam String type, @RequestParam String email) {
+        try{
+            EmployeeEntity employee = employeeRepo.findById(id)
                         .orElseThrow(() -> new ResourceNotFoundException("Employee does not exist with id: " + id));
 
-        employee.setFull_name(employeeDetails.getFull_name());
-        employee.setBranch(employeeDetails.getBranch());
-        employee.setPhone_number(employeeDetails.getPhone_number());
-        employee.setSkills(employeeDetails.getSkills());
-        employee.setType(employeeDetails.getSkills());
-        employee.setEmail(employeeDetails.getEmail());
+            employee.setFull_name(full_name);
+            employee.setBranch(branch);
+            employee.setPhone_number(phone_number);
+            employee.setSkills(skills);
+            employee.setType(type);
+            employee.setEmail(email);
 
-        EmployeeEntity updatedEmployee = employeeRepo.save(employee);
-        return ResponseEntity.ok(updatedEmployee);
+            employeeRepo.save(employee);
+            return 1;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return 0;
+        }
     }
 
     // Delete employee

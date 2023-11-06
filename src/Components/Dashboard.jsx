@@ -40,11 +40,11 @@ const Dashboard = () => {
 
         {view === 'contracts' && <ContractsComponent setLoading={setLoadingView}/>}
 
-        {view === 'employees' && <EmployeesComponent setLoading={setLoadingView} setView={setView}/>}
-        {view === 'AddEmployee' && <AddEmployees setLoading={setLoadingView} setView={setView} showMessage={setMessageBox} setMessage={setMessageBoxMessage} setMessageState={setMessageBoxState}/>}
+        {view === 'employees' && <EmployeesComponent setLoading={setLoadingView} setView={setView} setID={setPathID}/>}
+        {view === 'AddEmployee' && <AddEmployees setLoading={setLoadingView} setView={setView} showMessage={setMessageBox} setMessage={setMessageBoxMessage} setMessageState={setMessageBoxState} id={pathID}/>}
 
-        {view === 'jobs' && <JobCardsComponent setLoading={setLoadingView} setView={setView}/>}
-        {view === 'AddJobs' && <AddJobs setLoading={setLoadingView} setView={setView} showMessage={setMessageBox} setMessage={setMessageBoxMessage} setMessageState={setMessageBoxState}/>}
+        {view === 'jobs' && <JobCardsComponent setLoading={setLoadingView} setView={setView} setID={setPathID}/>}
+        {view === 'AddJobs' && <AddJobs setLoading={setLoadingView} setView={setView} showMessage={setMessageBox} setMessage={setMessageBoxMessage} setMessageState={setMessageBoxState} id={pathID}/>}
 
         {view === 'main' &&  <DashboardComponent setLoading={setLoadingView}/>}
       </div>

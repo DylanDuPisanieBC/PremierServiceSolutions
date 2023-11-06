@@ -3,7 +3,9 @@ import Sidebar from './Sidebar';
 import './CSS/AddJobs.css';
 import axios from 'axios';
 
-const AddEmployees = ({ setView, showMessage, setMessage, setMessageState }) => {
+const AddEmployees = ({ setView, showMessage, setMessage, setMessageState, id }) => {
+  const [editing, setEditing] = useState(false);
+  const [employeeID, setEmployeeID] = useState(0);
   const [full_name, setFullName] = useState('');
   const [branch, setBranch] = useState('');
   const [phone_number, setPhoneNumber] = useState('');
@@ -11,6 +13,7 @@ const AddEmployees = ({ setView, showMessage, setMessage, setMessageState }) => 
   const [type, setType] = useState('');
   const [email, setEmail] = useState('');
   const [Error, setErrorMessage] = useState('');
+  const [employee, setEmployee] = useState();
 
   const empInfo = new FormData();
   empInfo.append('full_name', full_name);
@@ -20,9 +23,47 @@ const AddEmployees = ({ setView, showMessage, setMessage, setMessageState }) => 
   empInfo.append('type', type);
   empInfo.append('email', email);
 
-  const addEmployee = async () => {
-    const response = await axios.post('http://localhost:8080/api/v1/employee/add', empInfo);
-    return response.data;
+  useEffect(() => {
+    if (id !== undefined) {
+      setEmployeeID(id);
+      setEditing(true);
+    } else {
+      setEmployeeID(undefined);
+      setEditing(false);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (editing) {
+      getEmployeeInfo();      
+    }
+
+  }, [editing]);
+
+  // Define getEmployeeInfo before using it
+  const getEmployeeInfo = async () => {
+    const response = await axios.get("http://localhost:8080/api/v1/employee/" + employeeID);
+    setEmployee(response.data);
+    console.log(response.data);
+  };
+
+  useEffect(() => {
+    if (employee !== undefined) {
+      populateInputs();      
+    }else{
+      console.log("Employee object not received yet");
+    }
+  }, [employee]);
+
+  
+
+  const populateInputs = () => {
+    setFullName(employee.full_name);
+    setBranch(employee.branch);
+    setPhoneNumber(employee.phone_number);
+    setSkills(employee.skills);
+    setType(employee.type);
+    setEmail(employee.email);
   }
 
   const handleFormSubmit = async () => {
@@ -30,31 +71,62 @@ const AddEmployees = ({ setView, showMessage, setMessage, setMessageState }) => 
       if(CheckBranch() === true){
         if(CheckPhoneNumber() === true){ 
           if(CheckSkills() === true){
-            if(await CheckEmail() === true){
+            if(!editing){
+              if(await CheckEmail() === true){
+                try{
+                  const response = await addEmployee()
+                  if(response === 1){
+                    setMessage('Employee Added Successfully');
+                    setMessageState('success');
+                    showMessage(true);
+                    setView('employees');
+                  }else{
+                    setMessage('Error Adding Employee');
+                    setMessageState('error');
+                    showMessage(true);
+                  }
+                }catch{
+                  setMessage('Cannot Contact Server');
+                  setMessageState('danger');
+                  showMessage(true);
+                }
+              }
+            }else{
               try{
-                const response = await addEmployee()
+                const response = await editEmployee()
                 if(response === 1){
-                  setMessage('Employee Added Successfully');
+                  setMessage('Employee Edited Successfully');
                   setMessageState('success');
                   showMessage(true);
                   setView('employees');
                 }else{
-                  setMessage('Error Adding Employee');
+                  setMessage('Error Editing Employee');
                   setMessageState('error');
                   showMessage(true);
                 }
-              
+                  
               }catch{
                 setMessage('Cannot Contact Server');
                 setMessageState('danger');
                 showMessage(true);
               }
-            }
+            } 
+            
           }
         }
       }
     }
   };
+
+  const addEmployee = async () => {
+    const response = await axios.post('http://localhost:8080/api/v1/employee/add', empInfo);
+    return response.data;
+  }
+
+  const editEmployee = async () => {
+    const response = await axios.put('http://localhost:8080/api/v1/employee/update/' + employeeID, empInfo);
+    return response.data;
+  }
 
   const CheckFullName = () => {
     if(full_name !== ''){
@@ -77,18 +149,20 @@ const AddEmployees = ({ setView, showMessage, setMessage, setMessageState }) => 
   }
 
   const CheckPhoneNumber = () => {
-    var intCheck = parseInt(phone_number);
+    var regex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+
     if(phone_number !== '' && phone_number.length === 10){
-      if(!isNaN(intCheck) && phone_number === '' + intCheck){
+      if(regex.test(phone_number)){
         setErrorMessage("");
         return true;
       }else{
         setErrorMessage("enter a valid phone number");
       }
-      
     }else{
-      setErrorMessage("enter a phone number of length 10");
+      setErrorMessage("enter a contact number of length 10");
     }
+    
+    
   };
 
   const CheckSkills = () => {
@@ -188,7 +262,12 @@ const AddEmployees = ({ setView, showMessage, setMessage, setMessageState }) => 
             <div className='error-message'>{Error}</div>
           )}
 
-          <button className="submit" onClick={handleFormSubmit}>Add Employee</button>
+          {editing && (
+            <button className="update-button" onClick={handleFormSubmit}>Edit Employee</button>
+          )}
+          {!editing && (
+            <button className="submit" onClick={handleFormSubmit}>Add Employee</button>
+          )}
       </div>
     </div>
   );

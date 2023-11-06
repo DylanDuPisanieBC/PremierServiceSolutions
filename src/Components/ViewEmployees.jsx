@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './CSS/ViewDetails.css';
 
-const ViewEmployees = ({setLoading, setView}) => {
+const ViewEmployees = ({setLoading, setView, setID}) => {
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
@@ -48,7 +48,8 @@ const ViewEmployees = ({setLoading, setView}) => {
   employeeDetails = employees.map( (item) => {
     // Send selected employee id to next view
     const handleEditClick = () => {     
-      console.log(item.employee_id);
+      setID(item.employee_id);
+      setView("AddEmployee"); 
       };
 
     return (
@@ -94,7 +95,7 @@ const ViewEmployees = ({setLoading, setView}) => {
           </table>
         </div>
       </form>
-      <button className='add-button' onClick={() => setView('AddEmployee')} >Add Client</button>
+      <button className='add-button' onClick={() => {setView('AddEmployee'); setID(undefined);}} >Add Client</button>
     </div>
   );
 };

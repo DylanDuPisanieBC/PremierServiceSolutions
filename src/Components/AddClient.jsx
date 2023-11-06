@@ -115,7 +115,7 @@ const AddClient = ({setView, showMessage, setMessage, setMessageState, id}) => {
                   setMessage('Client Added Successfully');
                   setMessageState('success');
                   showMessage(true);
-                  setView('client');
+                  setView('clients');
                 }else{
                   setMessage('Error Adding Client');
                   setMessageState('error');
@@ -135,7 +135,7 @@ const AddClient = ({setView, showMessage, setMessage, setMessageState, id}) => {
                 setMessage('Client Edited Successfully');
                 setMessageState('success');
                 showMessage(true);
-                setView('client');
+                setView('clients');
               }else{
                 setMessage('Error Editing Client');
                 setMessageState('error');
@@ -193,17 +193,15 @@ const AddClient = ({setView, showMessage, setMessage, setMessageState, id}) => {
   };
 
   const CheckContactNumber = () => {
-
-    var intCheck = parseInt(contactNumber);
+    var regex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
 
     if(contactNumber !== '' && contactNumber.length === 10){
-      if(!isNaN(intCheck) && contactNumber === '' + intCheck){
+      if(regex.test(contactNumber)){
         setErrorMessage("");
         return true;
       }else{
         setErrorMessage("enter a valid phone number");
       }
-      
     }else{
       setErrorMessage("enter a contact number of length 10");
     }
