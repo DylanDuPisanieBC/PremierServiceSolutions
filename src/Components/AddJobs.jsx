@@ -77,12 +77,12 @@ const AddJobs = ({setView, showMessage, setMessage, setMessageState, id}) => {
     setComments(job.comments);
 
     const call = calls.find((call) => call.call_id === job.call_id);
-    console.log(call.call_id);
     setSelectedCall(call);
+    setCallID(call.call_id)
 
     const employee = employees.find((employee) => employee.employee_id === job.employee_id);
-    console.log(employee.employee_id);
     setSelectedEmployee(employee);
+    setEmployeeID(employee.employee_id);
   }
 
   const handleFormSubmit = async () => {
@@ -257,7 +257,7 @@ const AddJobs = ({setView, showMessage, setMessage, setMessageState, id}) => {
               value={status}
               onChange={(e) => setStatus(e.target.value)
               }>
-              <option value="">---Select Status---</option>
+              {!editing && (<option value="">---Select Status---</option>)}
               <option value="Assigned">Assigned</option>
               <option value="Pending">Pending</option>
               <option value="Completed">Completed</option>
@@ -267,7 +267,7 @@ const AddJobs = ({setView, showMessage, setMessage, setMessageState, id}) => {
             <label htmlFor="emplopyee_id">Employee:</label>
             <select 
               id='emplopyee_id' 
-              value={selectedEmployee ? selectedEmployee.employee_id : ''}
+              value={employee_id}
               onChange={(e) => {
                 const selectedEmpID = parseInt(e.target.value, 10);
                 const empObject = employees.find((emp) => emp.employee_id === selectedEmpID);              
@@ -275,7 +275,7 @@ const AddJobs = ({setView, showMessage, setMessage, setMessageState, id}) => {
                 setEmployeeID(empObject.employee_id);
                 }}
                 >
-              <option value="">---Select Employee---</option>
+              {!editing && (<option value="">---Select Employee---</option>)}
               {employeeDetails}
             </select>    
           </div>
@@ -283,7 +283,7 @@ const AddJobs = ({setView, showMessage, setMessage, setMessageState, id}) => {
             <label htmlFor="call_id">Call:</label>
             <select 
               id='call_id' 
-              value={selectedCall ? selectedCall.call_id : ''}
+              value={call_id}
               onChange={(e) => {
                 const selectedCallID = parseInt(e.target.value, 10);
                 const callObject = calls.find((call) => call.call_id === selectedCallID);              
@@ -291,7 +291,7 @@ const AddJobs = ({setView, showMessage, setMessage, setMessageState, id}) => {
                 setCallID(callObject.call_id);
               }}
               >
-              <option value="">---Select Call---</option>
+              {!editing && (<option value="">---Select Call---</option>)}
               {callDetails}
             </select>    
           </div>
@@ -302,7 +302,7 @@ const AddJobs = ({setView, showMessage, setMessage, setMessageState, id}) => {
               value={priority}
               onChange={(e) => setPriority(e.target.value)
               }>
-              <option value="">---Select Priority---</option>
+              {!editing && (<option value="">---Select Priority---</option>)}
               <option value="L">Low</option>
               <option value="N">Normal</option>
               <option value="H">High</option>
@@ -315,7 +315,7 @@ const AddJobs = ({setView, showMessage, setMessage, setMessageState, id}) => {
               value={required_skills}
               onChange={(e) => setRequiredSkills(e.target.value)
               }>
-              <option value="">---Select Skills---</option>
+              {!editing && (<option value="">---Select Skills---</option>)}
               <option value="Technical Skills 1">Technical Skills 1</option>
               <option value="Technical Skills 2">Technical Skills 2</option>
               <option value="Technical Skills 3">Technical Skills 3</option>
