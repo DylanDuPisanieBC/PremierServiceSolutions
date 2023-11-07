@@ -1,5 +1,6 @@
 package com.group3.serverside.Controller;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.group3.serverside.Entity.CallEntity;
@@ -43,8 +45,22 @@ public class CallController {
 
     // Add call
     @PostMapping("/addCall")
-    public CallEntity createCall(@RequestBody CallEntity call) {
-        return callRepo.save(call);
+    public int createCall(@RequestParam int client_id, @RequestParam LocalDateTime call_start, @RequestParam LocalDateTime call_end) {
+        
+        try{
+            System.out.println("Api Call Received");
+            CallEntity newCall = new CallEntity();
+
+            newCall.setClient_id(client_id);
+            newCall.setCall_start(call_start);
+            newCall.setCall_end(call_end);
+
+            callRepo.save(newCall);
+            return 1;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return 0;
     }
 
     // Update call

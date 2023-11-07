@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './CSS/ViewDetails.css'; 
 
-const ViewCalls = ({setLoading}) => {
+const ViewCalls = ({setLoading, setView}) => {
   const [calls, setCalls] = useState([]);
 
   useEffect(() => {
@@ -45,11 +45,6 @@ const ViewCalls = ({setLoading}) => {
 
   var callDetails = "";
   callDetails = calls.map( (item) => {
-    // Send selected call id to next view
-    const handleEditClick = () => {     
-      console.log(item.call_id);
-      };
-
     return (
       // Display the stored array values in the table
       <tr key={item.call_id}>
@@ -85,6 +80,7 @@ const ViewCalls = ({setLoading}) => {
           </table>
         </div>
       </form>
+      <button className='add-button' onClick={() => setView('AddCall')} >Add Call</button>
     </div>
   );
 };

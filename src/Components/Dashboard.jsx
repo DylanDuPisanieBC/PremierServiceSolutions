@@ -13,6 +13,7 @@ import LoadingComponent from './ViewLoading';
 import MessageBoxComponent from './MessageBox'
 import AddJobs from './AddJobs';
 import AddEmployees from './AddEmployees';
+import AddCall from './AddCall';
 
 
 const Dashboard = () => {
@@ -33,7 +34,8 @@ const Dashboard = () => {
         {loading === true && <LoadingComponent/>}
         {messageBox === true && <MessageBoxComponent setMessageBoxState={setMessageBox} messageBoxMessage={messageBoxMessage} messageBoxState={messageBoxState}/>}
         
-        {view === 'calls' && <CallsComponent setLoading={setLoadingView}/>}
+        {view === 'calls' && <CallsComponent setLoading={setLoadingView} setView={setView}/>}
+        {view === 'AddCall' && <AddCall setLoading={setLoadingView} setView={setView} showMessage={setMessageBox} setMessage={setMessageBoxMessage} setMessageState={setMessageBoxState} />}
        
         {view === 'clients' && <ClientsComponent setLoading={setLoadingView} setView={setView} setID={setPathID}/>}
         {view === 'AddClient' && <AddClient setLoading={setLoadingView} setView={setView} showMessage={setMessageBox} setMessage={setMessageBoxMessage} setMessageState={setMessageBoxState} id={pathID}/>}
