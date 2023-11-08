@@ -60,7 +60,7 @@ const ViewJobs = ({setLoading, setView, setID}) => {
         <td>{item.job_id}</td>
         <td>{item.status}</td>
         <td>{item.hoc_notes}</td>
-        <td>{item.employee_id}</td>
+        <td>{item.employee ? item.employee.employee_id : 'N/A'}</td>
         <td>{item.call_id}</td>
         <td>{item.required_skills}</td>
         <td>{item.comments}</td>

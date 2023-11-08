@@ -194,15 +194,12 @@ const AddClient = ({setView, showMessage, setMessage, setMessageState, id}) => {
   const CheckContactNumber = () => {
     var regex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
 
-    if(contactNumber !== '' && contactNumber.length === 10){
-      if(regex.test(contactNumber)){
-        setErrorMessage("");
-        return true;
-      }else{
-        setErrorMessage("enter a valid phone number");
-      }
+    if(contactNumber !== ''){
+      setErrorMessage("");
+      return true;
     }else{
-      setErrorMessage("enter a contact number of length 10");
+      setErrorMessage("enter a contact number is unrecognized ");
+      return false
     }
   };
 

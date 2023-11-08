@@ -80,7 +80,7 @@ const AddJobs = ({setView, showMessage, setMessage, setMessageState, id}) => {
     setSelectedCall(call);
     setCallID(call.call_id)
 
-    const employee = employees.find((employee) => employee.employee_id === job.employee_id);
+    const employee = employees.find((employee) => employee.employee_id === job.employee?.employee_id);
     setSelectedEmployee(employee);
     setEmployeeID(employee.employee_id);
   }

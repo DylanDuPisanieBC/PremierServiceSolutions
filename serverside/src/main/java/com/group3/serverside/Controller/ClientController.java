@@ -2,6 +2,8 @@ package com.group3.serverside.Controller;
 
 import java.util.*;
 
+import com.group3.serverside.Services.ClientService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,8 +24,10 @@ import com.group3.serverside.Repository.ClientRepo;
 @RestController
 @RequestMapping("/api/v1/")
 @CrossOrigin(origins = "http://localhost:5173")
+@RequiredArgsConstructor
 public class ClientController {
-    
+    private final ClientService clientService;
+
     @Autowired
     private ClientRepo clientRepo;
 
@@ -62,7 +66,7 @@ public class ClientController {
         System.out.println("Contract ID: " + newClient.getContract_id());
 
         try{
-            clientRepo.save(newClient);
+            clientService.createClientWithNotification(newClient);
             return 1;
         }catch(Exception e){
             System.out.println(e.getMessage());
